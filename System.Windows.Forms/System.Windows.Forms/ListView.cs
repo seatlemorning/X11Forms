@@ -59,6 +59,8 @@ namespace System.Windows.Forms
 		private readonly ColumnHeaderCollection columns;
 		internal int focused_item_index = -1;
 		private bool full_row_select;
+		internal bool _selectionBatching;
+		internal bool _selectionChangedDuringBatch;
 		private bool grid_lines;
 		private ColumnHeaderStyle header_style = ColumnHeaderStyle.Clickable;
 		private bool hide_selection = true;
@@ -1062,13 +1064,16 @@ namespace System.Windows.Forms
 					int first = 0;
 					switch (view) {
 						case View.Details:
+							if (item_size.Height == 0) return 0; 
 							first = v_marker / item_size.Height;
 							break;
 						case View.LargeIcon:
 						case View.SmallIcon:
+							if (item_size.Height + y_spacing == 0) return 0; 
 							first = (v_marker / (item_size.Height + y_spacing)) * cols;
 							break;
 						case View.List:
+							if (item_size.Width * x_spacing == 0) return 0; 
 							first = (h_marker / (item_size.Width * x_spacing)) * rows;
 							break;
 					}
@@ -1104,6 +1109,25 @@ namespace System.Windows.Forms
 				return Items.Count - 1;
 			}
 		}
+
+		internal void BeginSelectionBatch()
+		{
+			_selectionBatching = true;
+			_selectionChangedDuringBatch = false;
+		}
+
+		internal void EndSelectionBatch()
+		{
+			_selectionBatching = false;
+
+			if (_selectionChangedDuringBatch)
+			{
+				OnSelectedIndexChanged(EventArgs.Empty);
+				if (!_selectionBatching)
+					Invalidate();
+			}
+		}
+
 
 		internal void OnSelectedIndexChanged ()
 		{
@@ -1549,6 +1573,9 @@ namespace System.Windows.Forms
 
 		void SetItemLocation (int index, int x, int y, int row, int col)
 		{
+			if (index >= items_location.Length)
+				AdjustItemsPositionArray(index + 1);
+			
 			Point old_location = items_location [index];
 			if (old_location.X == x && old_location.Y == y)
 				return;
@@ -2081,6 +2108,8 @@ namespace System.Windows.Forms
 
 		internal ListViewItem GetItemAtDisplayIndex (int display_index)
 		{
+			if (display_index < 0 || display_index >= Items.Count)
+                    return null;
 			// in virtual mode there's no reordering at all.
 			if (virtual_mode)
 				return items [display_index];
@@ -2296,52 +2325,193 @@ namespace System.Windows.Forms
 		{
 			bool shift_pressed = (XplatUI.State.ModifierKeys & Keys.Shift) != 0;
 			bool ctrl_pressed = (XplatUI.State.ModifierKeys & Keys.Control) != 0;
-			ListViewItem item = GetItemAtDisplayIndex (index);
 
-			if (shift_pressed && selection_start != null) {
-				ArrayList list = new ArrayList ();
-				int start_index = selection_start.DisplayIndex;
-				int start = Math.Min (start_index, index);
-				int end = Math.Max (start_index, index);
-				if (View == View.Details) {
-					for (int i = start; i <= end; i++)
-						list.Add (GetItemAtDisplayIndex (i));
-				} else {
-					ItemMatrixLocation start_item_matrix_location = items_matrix_location [start];
-					ItemMatrixLocation end_item_matrix_location = items_matrix_location [end];
-					int left = Math.Min (start_item_matrix_location.Col, end_item_matrix_location.Col);
-					int right = Math.Max (start_item_matrix_location.Col, end_item_matrix_location.Col);
-					int top = Math.Min (start_item_matrix_location.Row, end_item_matrix_location.Row);
-					int bottom = Math.Max (start_item_matrix_location.Row, end_item_matrix_location.Row);
+			bool useBatching = shift_pressed || ctrl_pressed;
+			if (useBatching)
+				BeginSelectionBatch();
 
-					for (int i = 0; i < items.Count; i++) {
-						ItemMatrixLocation item_matrix_loc = items_matrix_location [i];
+			try
+			{
+				if (VirtualMode)
+				{
+					if (index < 0 || index >= VirtualListSize)
+						return;
+					
+					if (shift_pressed && selection_start != null)
+					{
+						int start_index = selection_start.DisplayIndex;
+						int start = Math.Min(start_index, index);
+						int end = Math.Max(start_index, index);
+						int[] oldIndices = new int[selected_indices.Count];
+						selected_indices.CopyTo(oldIndices, 0);
+						for (int i = start; i <= end; i++)
+						{
+							if (!selected_indices.Contains(i)) selected_indices.InsertIndex(i);
+						}
 
-						if (item_matrix_loc.Row >= top && item_matrix_loc.Row <= bottom &&
-								item_matrix_loc.Col >= left && item_matrix_loc.Col <= right)
-							list.Add (GetItemAtDisplayIndex (i));
+						int[] currentIndices = new int[selected_indices.Count];
+						selected_indices.CopyTo(currentIndices, 0);
+						for (int i = 0; i < currentIndices.Length; i++)
+						{
+							if (currentIndices[i] < start || currentIndices[i] > end)
+								selected_indices.RemoveIndex(currentIndices[i]);
+						}
+						if (!_selectionBatching)
+						{
+							if (!_selectionBatching)
+							{
+								OnSelectedIndexChanged();
+								RefreshSelection();
+							}
+						}
+					}
+					else if (ctrl_pressed)
+					{
+						bool wasSelected = selected_indices.Contains(index);
+						if (wasSelected)
+							selected_indices.RemoveIndex(index);
+						else
+							selected_indices.InsertIndex(index);
+						selection_start = GetItemAtDisplayIndex(index);
+
+						if (!_selectionBatching)
+						{				
+							item_control.Update();
+						}
+					}
+					else
+					{
+						ListViewItem item = GetItemAtDisplayIndex(index);
+						if (item == null) return;
+						
+						if (!reselect)
+						{
+							if (!selected_indices.Contains(index))
+							{
+								selected_indices.InsertIndex(index);
+								item.Selected = true;
+							}
+						}
+						else
+						{
+							selected_indices.List.Clear();
+							selected_indices.InsertIndex(index);
+							item.Selected = true;
+						}
+
+						selection_start = item;
+
+						if (!_selectionBatching)
+						{
+							OnSelectedIndexChanged();
+							RefreshSelection();
+						}
 					}
 				}
-				SelectItems (list);
-			} else if (ctrl_pressed) {
-				item.Selected = !item.Selected;
-				selection_start = item;
-			} else {
-				if (!reselect) {
-					// do not unselect, and reselect the item
-					foreach (int itemIndex in SelectedIndices) {
-						if (index == itemIndex)
-							continue;
-						items [itemIndex].Selected = false;
+				else
+				{
+					ListViewItem item = GetItemAtDisplayIndex(index);
+					if (item == null) return;
+					
+					if (shift_pressed && selection_start != null)
+					{
+						ArrayList list = new ArrayList();
+						int start_index = selection_start.DisplayIndex;
+						int start = Math.Min(start_index, index);
+						int end = Math.Max(start_index, index);
+						if (View == View.Details)
+						{
+							for (int i = start; i <= end; i++)
+								list.Add(GetItemAtDisplayIndex(i));
+						}
+						else
+						{
+							ItemMatrixLocation start_item_matrix_location = items_matrix_location[start];
+							ItemMatrixLocation end_item_matrix_location = items_matrix_location[end];
+							int left = Math.Min(start_item_matrix_location.Col, end_item_matrix_location.Col);
+							int right = Math.Max(start_item_matrix_location.Col, end_item_matrix_location.Col);
+							int top = Math.Min(start_item_matrix_location.Row, end_item_matrix_location.Row);
+							int bottom = Math.Max(start_item_matrix_location.Row, end_item_matrix_location.Row);
+
+							for (int i = 0; i < items.Count; i++)
+							{
+								ItemMatrixLocation item_matrix_loc = items_matrix_location[i];
+
+								if (item_matrix_loc.Row >= top && item_matrix_loc.Row <= bottom &&
+								    item_matrix_loc.Col >= left && item_matrix_loc.Col <= right)
+									list.Add(GetItemAtDisplayIndex(i));
+							}
+						}
+
+						SelectItems(list);
 					}
-				} else {
-					SelectedItems.Clear ();
-					item.Selected = true;
+					else if (ctrl_pressed)
+					{
+						item.Selected = !item.Selected;
+						selection_start = item;
+					}
+					else
+					{
+						if (!reselect)
+						{
+							// do not unselect, and reselect the item
+							foreach (int itemIndex in SelectedIndices)
+							{
+								if (index == itemIndex)
+									continue;
+								items[itemIndex].Selected = false;
+							}
+						}
+						else
+						{
+							SelectedItems.Clear();
+							item.Selected = true;
+						}
+
+						selection_start = item;
+					}
 				}
-				selection_start = item;
+			}
+			finally
+			{
+				if (useBatching)
+					EndSelectionBatch();
+				item_control.Invalidate();
 			}
 		}
 
+		private void RefreshSelection()
+		{
+			if (VirtualMode)
+			{
+				Rectangle visibleRect = item_control.ClientRectangle;
+				visibleRect.Inflate(10, 10);
+				item_control.Invalidate(visibleRect);
+			}
+			else
+			{
+				Invalidate();
+			}
+		}
+
+		private void SelectSingleItem(int display_index)
+		{
+			if (display_index == -1 || display_index >= items.Count)
+				return;
+
+			EnsureVisible(GetItemIndex(display_index));
+
+			SelectedItems.Clear();
+
+			ListViewItem item = GetItemAtDisplayIndex(display_index);
+			if (item == null) return;
+			
+			item.Selected = true;
+    
+			SetFocusedItem(display_index);
+			item_control.Invalidate();
+		}
+		
 		internal override bool InternalPreProcessMessage (ref Message msg)
 		{
 			if (msg.Msg == (int)Msg.WM_KEYDOWN) {
@@ -2423,13 +2593,18 @@ namespace System.Windows.Forms
 			if (display_index == -1)
 				return;
 
-			if (MultiSelect)
-				UpdateMultiSelection (display_index, true);
-			else if (!GetItemAtDisplayIndex (display_index).Selected)
-				GetItemAtDisplayIndex (display_index).Selected = true;
+			bool ctrlPressed = (XplatUI.State.ModifierKeys & Keys.Control) != 0;
+			bool shiftPressed = (XplatUI.State.ModifierKeys & Keys.Shift) != 0;
 
-			SetFocusedItem (display_index);
-			EnsureVisible (GetItemIndex (display_index)); // Index in Items collection, not display index
+			if (MultiSelect && (ctrlPressed || shiftPressed))
+			{
+				UpdateMultiSelection(display_index, true);
+			}
+			else
+			{
+				SelectSingleItem(display_index);
+			}
+			SetFocusedItem(display_index);
 		}
 
 		private void ListView_KeyDown (object sender, KeyEventArgs ke)
@@ -3336,6 +3511,11 @@ namespace System.Windows.Forms
 					XplatUI.ScrollWindow (header_control.Handle, pixels, 0, false);
 
 				XplatUI.ScrollWindow (item_control.Handle, pixels, 0, false);
+				
+				if (VirtualMode && Math.Abs(pixels) > 0)
+				{
+					item_control.Invalidate();
+				}
 			}
 		}
 
@@ -3355,6 +3535,11 @@ namespace System.Windows.Forms
 
 				v_marker = v_scroll.Value;
 				XplatUI.ScrollWindow (item_control.Handle, area, 0, pixels, false);
+				
+				if (VirtualMode && Math.Abs(pixels) > 0)
+				{
+					item_control.Invalidate();
+				}
 			}
 		}
 
@@ -3539,6 +3724,19 @@ namespace System.Windows.Forms
 			EventHandler eh = (EventHandler)(Events [SelectedIndexChangedEvent]);
 			if (eh != null)
 				eh (this, e);
+        
+            	if (VirtualMode && SelectedIndices.Count > 0) 
+		   {
+                	bool isMultiSelect = SelectedIndices.Count > 1 || 
+                                   	(Control.ModifierKeys & (Keys.Control | Keys.Shift)) != 0;
+                
+                	if (!isMultiSelect) 
+                	{
+                    	int selectedIndex = SelectedIndices[SelectedIndices.Count - 1];
+                    	Rectangle itemRect = GetItemRect(selectedIndex);
+                    	if (!itemRect.IntersectsWith(item_control.ClientRectangle) { EnsureVisible(selectedIndex); }
+                	}
+		   }
 		}
 
 		protected override void OnSystemColorsChanged (EventArgs e)

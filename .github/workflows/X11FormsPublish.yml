@@ -1,0 +1,34 @@
+name: Publish to NuGet
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Build and Pack
+      run: dotnet pack -c Release --output ./nupkg
+
+    - name: NuGet Login (Trusted Publishing)
+      uses: NuGet/login@v1
+      with:
+        user: seatlemorning
+
+    - name: Push to NuGet
+      run: |
+        dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json

@@ -22,7 +22,11 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: Build and Pack
-      run: dotnet pack -c Release --output ./nupkg
+      run: |
+        for project in $(find . -name "*.csproj" | grep -v "SimpleTest" | grep -v "SimpleTest.NetCore" | grep -v "SimpleTest.NetFX"); do
+          echo "📦 Packing: $project"
+          dotnet pack "$project" -c Release --output ./nupkg --no-restore
+        done
 
     - name: NuGet Login (Trusted Publishing)
       uses: NuGet/login@v1

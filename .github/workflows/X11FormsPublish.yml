@@ -1,72 +1,53 @@
-name: Publish to NuGet
+name: Build and Pack X11Forms
 on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
   release:
-    types: [published]
+    types: [ created ]
 
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Install .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
 
-      - name: Create clean build directory
+      - name: List all .csproj files
         run: |
-          mkdir -p build_temp
-          mkdir -p nupkg
+          find . -name "*.csproj" | sort
 
-          rm -rf SimpleTest*
-          
-          cp -r System.Windows.Forms build_temp/
-          cp -r Mono.WebBrowser build_temp/
-          cp -r System.Drawing.Design build_temp/
-          cp -r System.Windows.Forms.DataVisualization build_temp/
-          cp *.props build_temp/ 2>/dev/null || true
-          cp *.targets build_temp/ 2>/dev/null || true
-
-          echo "📁 Files in build_temp (after cleanup):"
-          ls -la build_temp/
-
-      - name: Restore packages
+      - name: Remove zombie projects (SimpleTest*)
         run: |
-          cd build_temp
-          dotnet restore System.Windows.Forms/System.Windows.Forms.csproj
-          dotnet restore Mono.WebBrowser/Mono.WebBrowser.csproj
-          dotnet restore System.Drawing.Design/System.Drawing.Design.csproj
-          dotnet restore System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj
+          rm -f SimpleTest.csproj SimpleTest.NetCore.csproj
+          rm -rf SimpleTest/ SimpleTest.NetCore/
+          if find . -name "SimpleTest*.csproj" -print | grep -q .; then
+            find . -name "SimpleTest*.csproj" -print
+            exit 1
+          fi
 
-      - name: Build and Pack
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build and Pack only required projects
         run: |
-          cd build_temp
-          dotnet pack System.Windows.Forms/System.Windows.Forms.csproj -c Release --output ../nupkg --no-restore
-          dotnet pack Mono.WebBrowser/Mono.WebBrowser.csproj -c Release --output ../nupkg --no-restore
-          dotnet pack System.Drawing.Design/System.Drawing.Design.csproj -c Release --output ../nupkg --no-restore
-          dotnet pack System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj -c Release --output ../nupkg --no-restore
+          dotnet pack ./System.Windows.Forms/System.Windows.Forms.csproj --configuration Release --include-symbols --output ./nupkg
+          dotnet pack ./Mono.WebBrowser/Mono.WebBrowser.csproj --configuration Release --include-symbols --output ./nupkg
+          dotnet pack ./System.Drawing.Design/System.Drawing.Design.csproj --configuration Release --include-symbols --output ./nupkg
+          dotnet pack ./System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj --configuration Release --include-symbols --output ./nupkg
+
+      - name: Upload NuGet packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages
+          path: nupkg/*.nupkg
 
       - name: List generated packages
         run: |
-          echo "📦 Generated packages:"
-          ls -la ./nupkg/
-
-      - name: NuGet Login (Trusted Publishing)
-        uses: NuGet/login@v1
-        with:
-          user: seatlemorning
-
-      - name: Push to NuGet
-        run: |
-          if ls ./nupkg/*.nupkg 1> /dev/null 2>&1; then
-            dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
-          else
-            echo "No packages found to push!"
-            exit 1
-          fi
+          ls -la nupkg/

@@ -6,13 +6,13 @@
     <Copyright>(c) Various Mono authors, Daniel Van Noord 2019</Copyright>
     <Authors>Various Mono authors, Daniel Van Noord</Authors>
     <Description>A .Net Core implementation of the Mono System.Drawing.Design library. This is built on top of System.Drawing.Common.</Description>
-    <PackageProjectUrl>https://github.com/DanielVanNoord/System.Windows.Forms</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DanielVanNoord/System.Windows.Forms</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/seatlemorning/X11Forms</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seatlemorning/X11Forms</RepositoryUrl>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <Company>None</Company>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <Version>1.0.0</Version>
-    <PackageId>Core.System.Drawing.Design</PackageId>
+    <PackageId>X11Forms.Drawing.Design</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

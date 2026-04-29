@@ -1,17 +1,1 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <UseWindowsForms>false</UseWindowsForms>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Include="..\SimpleTest\Form1.cs" Link="Form1.cs" />
-    <Compile Include="..\SimpleTest\Form1.Designer.cs" Link="Form1.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="..\SimpleTest\Form1.resx" Link="Form1.resx" />
-  </ItemGroup>
-
-</Project>
+//Deleted for the stable building

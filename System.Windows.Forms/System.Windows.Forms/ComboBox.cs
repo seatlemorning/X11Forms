@@ -249,7 +249,7 @@ namespace System.Windows.Forms
 				if(auto_complete_mode == value)
 					return;
 
-				if((value < AutoCompleteMode.None) || (value > AutoCompleteMode.SuggestAppend))
+				if((value < AutoCompleteMode.None) || (value > AutoCompleteMode.CustomSuggest))
 					throw new InvalidEnumArgumentException (Locale.GetText ("Enum argument value '{0}' is not valid for AutoCompleteMode", value));
 
 				auto_complete_mode = value;
@@ -436,7 +436,7 @@ namespace System.Windows.Forms
 					textbox_ctrl.KeyPress += new KeyPressEventHandler (OnTextKeyPress);
 					textbox_ctrl.Click += new EventHandler (OnTextBoxClick);
 					textbox_ctrl.ContextMenu = ContextMenu;
-					textbox_ctrl.TopMargin = 1; // since we don't have borders, adjust manually the top
+					textbox_ctrl.TopMargin = -1; // since we don't have borders, adjust manually the top
 
 					if (IsHandleCreated == true)
 						Controls.AddImplicit (textbox_ctrl);

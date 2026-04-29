@@ -304,6 +304,7 @@ namespace System.Windows.Forms
 			}
 			}
 			catch (Exception ex) {
+				Console.WriteLine("WndProcException: " + ex);
 #if !ExternalExceptionHandler
 				if (window != null) {
 					if (msg == Msg.WM_PAINT && window is Control.ControlNativeWindow) {

@@ -23,20 +23,28 @@ jobs:
 
     - name: Remove problematic projects
       run: |
-        rm -rf SimpleTest/ SimpleTest.NetCore/ SimpleTest.NetFX/
-        # Также удаляем любые другие .csproj файлы в этих папках
-        find . -name "*.csproj" -path "*/SimpleTest/*" -delete 2>/dev/null || true
-        find . -name "*.csproj" -path "*/SimpleTest.NetCore/*" -delete 2>/dev/null || true
-        find . -name "*.csproj" -path "*/SimpleTest.NetFX/*" -delete 2>/dev/null || true
-        echo "Remaining .csproj files:"
-        find . -name "*.csproj" | grep -v "SimpleTest" || echo "No problematic projects found"
+        rm -rf SimpleTest SimpleTest.NetCore SimpleTest.NetFX
+        echo "✅ Problematic projects removed"
+        echo "Remaining projects:"
+        find . -name "*.csproj" -type f
+
+    - name: Restore packages for needed projects
+      run: |
+        dotnet restore System.Windows.Forms/System.Windows.Forms.csproj
+        dotnet restore Mono.WebBrowser/Mono.WebBrowser.csproj
+        dotnet restore System.Drawing.Design/System.Drawing.Design.csproj
+        dotnet restore System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj
 
     - name: Build and Pack
       run: |
-        dotnet pack System.Windows.Forms/System.Windows.Forms.csproj -c Release --output ./nupkg
-        dotnet pack Mono.WebBrowser/Mono.WebBrowser.csproj -c Release --output ./nupkg || true
-        dotnet pack System.Drawing.Design/System.Drawing.Design.csproj -c Release --output ./nupkg || true
-        dotnet pack System.Windows.Forms.DataVisualization/System.Windows.Forms..DataVisualization.csproj -c Release --output ./nupkg
+        dotnet pack System.Windows.Forms/System.Windows.Forms.csproj -c Release --output ./nupkg --no-restore
+        dotnet pack Mono.WebBrowser/Mono.WebBrowser.csproj -c Release --output ./nupkg --no-restore
+        dotnet pack System.Drawing.Design/System.Drawing.Design.csproj -c Release --output ./nupkg --no-restore
+        dotnet restore System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj -c Release --output ./nupkg --no-restore
+    - name: List generated packages
+      run: |
+        echo "📦 Generated packages:"
+        ls -la ./nupkg/
 
     - name: NuGet Login (Trusted Publishing)
       uses: NuGet/login@v1
@@ -45,9 +53,4 @@ jobs:
 
     - name: Push to NuGet
       run: |
-        if ls ./nupkg/*.nupkg 1> /dev/null 2>&1; then
-          dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
-        else
-          echo "No packages found to push!"
-          exit 1
-        fi
+        dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json

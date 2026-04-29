@@ -32,6 +32,16 @@ jobs:
             exit 1
           fi
 
+      - name: Clean solution file (remove zombie project references)
+        run: |
+          # Удаляем строки с SimpleTest из .sln — если они есть
+          sed -i '/SimpleTest/d' *.sln 2>/dev/null || true
+          sed -i '/SimpleTest/d' */*.sln 2>/dev/null || true
+          # Удаляем пустые строки, оставшиеся после удаления
+          sed -i '/^$/d' *.sln 2>/dev/null || true
+          sed -i '/^$/d' */*.sln 2>/dev/null || true
+          echo "✅ Cleaned .sln files of zombie references"
+
       - name: Restore dependencies
         run: dotnet restore
 

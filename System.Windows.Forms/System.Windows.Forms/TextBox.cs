@@ -142,6 +142,7 @@ namespace System.Windows.Forms {
 
 			bool append = auto_complete_mode == AutoCompleteMode.Append || auto_complete_mode == AutoCompleteMode.SuggestAppend;
 			bool suggest = auto_complete_mode == AutoCompleteMode.Suggest || auto_complete_mode == AutoCompleteMode.SuggestAppend;
+			bool customSuggest = auto_complete_mode == AutoCompleteMode.CustomSuggest || auto_complete_mode == AutoCompleteMode.SuggestAppend;
 
 			if (Text.Length == 0) {
 				if (auto_complete_listbox != null)
@@ -158,8 +159,15 @@ namespace System.Windows.Forms {
 			for (int i = 0; i < source.Count; i++) {
 				string item_text = auto_complete_cb_source == null ? auto_complete_custom_source [i] :
 					auto_complete_cb_source.GetItemText (auto_complete_cb_source.Items [i]);
-				if (item_text.StartsWith (text, StringComparison.CurrentCultureIgnoreCase))
-					auto_complete_matches.Add (item_text);
+				if (auto_complete_mode == AutoCompleteMode.CustomSuggest)
+				{
+					if (item_text.Contains(text, StringComparison.CurrentCultureIgnoreCase))
+						auto_complete_matches.Add(item_text);
+				}
+				else if (item_text.StartsWith(text, StringComparison.CurrentCultureIgnoreCase))
+				{
+					auto_complete_matches.Add(item_text);
+				}
 			}
 
 			auto_complete_matches.Sort ();
@@ -175,7 +183,7 @@ namespace System.Windows.Forms {
 
 			auto_complete_selected_index = suggest ? -1 : 0;
 
-			if (suggest) {
+			if (suggest || customSuggest) {
 				if (auto_complete_listbox == null)
 					auto_complete_listbox = new AutoCompleteListBox (this);
 
@@ -413,7 +421,7 @@ namespace System.Windows.Forms {
 				if(auto_complete_mode == value)
 					return;
 
-				if((value < AutoCompleteMode.None) || (value > AutoCompleteMode.SuggestAppend))
+				if((value < AutoCompleteMode.None) || (value > AutoCompleteMode.CustomSuggest))
 					throw new InvalidEnumArgumentException (Locale.GetText ("Enum argument value '{0}' is not valid for AutoCompleteMode", value));
 
 				auto_complete_mode = value;

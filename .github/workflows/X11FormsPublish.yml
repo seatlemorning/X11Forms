@@ -21,12 +21,13 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    - name: Remove problematic projects
+      run: |
+        rm -rf SimpleTest SimpleTest.NetCore SimpleTest.NetFX
+
     - name: Build and Pack
       run: |
-        for project in $(find . -name "*.csproj" | grep -v "SimpleTest" | grep -v "SimpleTest.NetCore" | grep -v "SimpleTest.NetFX"); do
-          echo "📦 Packing: $project"
-          dotnet pack "$project" -c Release --output ./nupkg --no-restore
-        done
+        dotnet pack -c Release --output ./nupkg
 
     - name: NuGet Login (Trusted Publishing)
       uses: NuGet/login@v1

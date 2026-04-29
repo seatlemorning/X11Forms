@@ -33,6 +33,7 @@ namespace System.Windows.Forms
 		None = 0,
 		Suggest = 1,
 		Append = 2,
-		SuggestAppend = 3
+		SuggestAppend = 3,
+		CustomSuggest = 4
 	}
 }

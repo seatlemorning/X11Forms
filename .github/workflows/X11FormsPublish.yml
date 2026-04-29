@@ -21,12 +21,44 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    - name: Create clean build directory
+      run: |
+        mkdir -p build_temp
+        mkdir -p nupkg
+        
+        cp -r System.Windows.Forms build_temp/
+        cp -r Mono.WebBrowser build_temp/
+        cp -r System.Drawing.Design build_temp/
+        cp -r System.Windows.Forms.DataVisualization build_temp/
+        
+        cp *.props build_temp/ 2>/dev/null || true
+        cp *.targets build_temp/ 2>/dev/null || true
+        
+        echo "📁 Files in build_temp:"
+        ls -la build_temp/
+
+    - name: Restore packages
+      run: |
+        cd build_temp
+        
+        dotnet restore System.Windows.Forms/System.Windows.Forms.csproj
+        dotnet restore Mono.WebBrowser/Mono.WebBrowser.csproj
+        dotnet restore System.Drawing.Design/System.Drawing.Design.csproj
+        dotnet restore System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj
+
     - name: Build and Pack
       run: |
-        for project in $(find . -name "*.csproj" | grep -v "SimpleTest" | grep -v "SimpleTest.NetCore" | grep -v "SimpleTest.NetFX"); do
-          echo "📦 Packing: $project"
-          dotnet pack "$project" -c Release --output ./nupkg --no-restore
-        done
+        cd build_temp
+        
+        dotnet pack System.Windows.Forms/System.Windows.Forms.csproj -c Release --output ../nupkg --no-restore
+        dotnet pack Mono.WebBrowser/Mono.WebBrowser.csproj -c Release --output ../nupkg --no-restore
+        dotnet pack System.Drawing.Design/System.Drawing.Design.csproj -c Release --output ../nupkg --no-restore
+        dotnet pack System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj -c Release --output ../nupkg --no-restore
+
+    - name: List generated packages
+      run: |
+        echo "📦 Generated packages:"
+        ls -la ./nupkg/
 
     - name: NuGet Login (Trusted Publishing)
       uses: NuGet/login@v1
@@ -35,4 +67,9 @@ jobs:
 
     - name: Push to NuGet
       run: |
-        dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
+        if ls ./nupkg/*.nupkg 1> /dev/null 2>&1; then
+          dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json
+        else
+          echo "No packages found to push!"
+          exit 1
+        fi

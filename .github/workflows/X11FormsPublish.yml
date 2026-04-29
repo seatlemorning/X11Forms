@@ -19,7 +19,17 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '8.0.x' # Укажите вашу версию .NET
+        dotnet-version: '8.0.x'
+
+    - name: Remove problematic folders and verify
+      run: |
+        echo "Before removal:"
+        ls -la | grep SimpleTest || echo "No SimpleTest folders found"
+        
+        rm -rf SimpleTest SimpleTest.NetCore SimpleTest.NetFX
+        
+        echo "After removal:"
+        ls -la | grep SimpleTest || echo "✅ SimpleTest folders removed successfully"
 
     - name: Build and Pack
       run: dotnet pack -c Release --output ./nupkg
@@ -27,8 +37,7 @@ jobs:
     - name: NuGet Login (Trusted Publishing)
       uses: NuGet/login@v1
       with:
-        # Введите сюда ваше ИМЯ ПОЛЬЗОВАТЕЛЯ на NuGet.org (не email)
-        user: seatlemorning 
+        user: seatlemorning
 
     - name: Push to NuGet
       run: |

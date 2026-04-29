@@ -1,63 +1,35 @@
-name: Build and Pack X11Forms
+name: Publish to NuGet
+
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
   release:
-    types: [ created ]
+    types: [published]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+    
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x' # Укажите вашу версию .NET
 
-      - name: List all .csproj files
-        run: |
-          find . -name "*.csproj" | sort
+    - name: Build and Pack
+      run: dotnet pack -c Release --output ./nupkg
 
-      - name: Remove zombie projects (SimpleTest*)
-        run: |
-          rm -f SimpleTest.csproj SimpleTest.NetCore.csproj
-          rm -rf SimpleTest/ SimpleTest.NetCore/
-          if find . -name "SimpleTest*.csproj" -print | grep -q .; then
-            find . -name "SimpleTest*.csproj" -print
-            exit 1
-          fi
+    - name: NuGet Login (Trusted Publishing)
+      uses: NuGet/login@v1
+      with:
+        # Введите сюда ваше ИМЯ ПОЛЬЗОВАТЕЛЯ на NuGet.org (не email)
+        user: seatlemorning 
 
-      - name: Clean solution file (remove zombie project references)
-        run: |
-          # Удаляем строки с SimpleTest из .sln — если они есть
-          sed -i '/SimpleTest/d' *.sln 2>/dev/null || true
-          sed -i '/SimpleTest/d' */*.sln 2>/dev/null || true
-          # Удаляем пустые строки, оставшиеся после удаления
-          sed -i '/^$/d' *.sln 2>/dev/null || true
-          sed -i '/^$/d' */*.sln 2>/dev/null || true
-          echo "✅ Cleaned .sln files of zombie references"
-
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Build and Pack only required projects
-        run: |
-          dotnet pack ./System.Windows.Forms/System.Windows.Forms.csproj --configuration Release --include-symbols --output ./nupkg
-          dotnet pack ./Mono.WebBrowser/Mono.WebBrowser.csproj --configuration Release --include-symbols --output ./nupkg
-          dotnet pack ./System.Drawing.Design/System.Drawing.Design.csproj --configuration Release --include-symbols --output ./nupkg
-          dotnet pack ./System.Windows.Forms.DataVisualization/System.Windows.Forms.DataVisualization.csproj --configuration Release --include-symbols --output ./nupkg
-
-      - name: Upload NuGet packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: nuget-packages
-          path: nupkg/*.nupkg
-
-      - name: List generated packages
-        run: |
-          ls -la nupkg/
+    - name: Push to NuGet
+      run: |
+        dotnet nuget push ./nupkg/*.nupkg --source https://api.nuget.org/v3/index.json

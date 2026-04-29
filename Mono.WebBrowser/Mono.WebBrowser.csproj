@@ -7,13 +7,13 @@
     <Description>A .Net Core implementation of the Mono Web Browser library.</Description>
     <Copyright>(c) Various Mono authors, Daniel Van Noord 2019</Copyright>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/DanielVanNoord/System.Windows.Forms</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/DanielVanNoord/System.Windows.Forms</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/seatlemorning/X11Forms</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/seatlemorning/X11Forms</RepositoryUrl>
     <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>License.txt</PackageLicenseFile>
     <Version>1.0.0</Version>
-    <PackageId>Mono.WebBrowser</PackageId>
+    <PackageId>X11Forms.Mono.WebBrowser</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

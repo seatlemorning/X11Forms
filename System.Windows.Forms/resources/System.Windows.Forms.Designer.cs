@@ -321,9 +321,9 @@ namespace System.Windows.Forms.resources {
             }
         }
         
-        internal static string Font_ {
+        internal static string Font {
             get {
-                return ResourceManager.GetString("Font:", resourceCulture);
+                return ResourceManager.GetString("Font", resourceCulture);
             }
         }
         

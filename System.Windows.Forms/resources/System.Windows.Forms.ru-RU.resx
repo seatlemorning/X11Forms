@@ -241,7 +241,7 @@
   <data name="Example" xml:space="preserve">
     <value>Пример</value>
   </data>
-  <data name="Font:" xml:space="preserve">
+  <data name="Font" xml:space="preserve">
     <value>Шрифт:</value>
   </data>
   <data name="Effects" xml:space="preserve">

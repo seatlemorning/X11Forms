@@ -253,8 +253,8 @@
   <data name="Example" xml:space="preserve">
     <value>Example</value>
   </data>
-  <data name="Font:" xml:space="preserve">
-    <value>Font:</value>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
   </data>
   <data name="Effects" xml:space="preserve">
     <value>Effects</value>

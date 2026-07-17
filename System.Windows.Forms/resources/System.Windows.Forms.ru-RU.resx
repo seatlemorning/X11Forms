@@ -235,4 +235,31 @@
   <data name="Property Pages" xml:space="preserve">
     <value>Страницы свойств</value>
   </data>
+  <data name="Font Style:" xml:space="preserve">
+    <value>Стиль шрифта:</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Пример</value>
+  </data>
+  <data name="Font:" xml:space="preserve">
+    <value>Шрифт:</value>
+  </data>
+  <data name="Effects" xml:space="preserve">
+    <value>Эффекты</value>
+  </data>
+  <data name="Size:" xml:space="preserve">
+    <value>Размер:</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Зачеркнуто</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="Underlined" xml:space="preserve">
+    <value>Подчеркивание</value>
+  </data>
+  <data name="Script:" xml:space="preserve">
+    <value>Набор символов</value>
+  </data>
 </root>

@@ -220,7 +220,7 @@ namespace System.Windows.Forms
 			fontstyleLabel.Location = new Point( 164, 10 );
 			fontstyleLabel.Size = new Size( 100, 16 );
 			fontstyleLabel.TabIndex = 1;
-			fontstyleLabel.Text = "Font Style:";
+			fontstyleLabel.Text = Locale.GetText("Font Style:");
 			// typesizeTextBox
 			fontsizeTextBox.Location = new Point( 284, 26 );
 			fontsizeTextBox.Size = new Size( 52, 21 );
@@ -239,7 +239,7 @@ namespace System.Windows.Forms
 			exampleGroupBox.Size = new Size( 172, 70 );
 			exampleGroupBox.TabIndex = 12;
 			exampleGroupBox.TabStop = false;
-			exampleGroupBox.Text = "Example";
+			exampleGroupBox.Text = Locale.GetText("Example");
 			// fontstyleListBox
 			fontstyleListBox.Location = new Point( 164, 47 );
 			fontstyleListBox.Size = new Size( 112, 95 );
@@ -248,7 +248,7 @@ namespace System.Windows.Forms
 			fontLabel.Location = new Point( 16, 10 );
 			fontLabel.Size = new Size( 88, 16 );
 			fontLabel.TabIndex = 0;
-			fontLabel.Text = "Font:";
+			fontLabel.Text = Locale.GetText("Font:");
 			// effectsGroupBox
 			effectsGroupBox.Controls.Add( underlinedCheckBox );
 			effectsGroupBox.Controls.Add( strikethroughCheckBox );
@@ -258,12 +258,12 @@ namespace System.Windows.Forms
 			effectsGroupBox.Size = new Size( 140, 116 );
 			effectsGroupBox.TabIndex = 11;
 			effectsGroupBox.TabStop = false;
-			effectsGroupBox.Text = "Effects";
+			effectsGroupBox.Text = Locale.GetText("Effects");
 			// strikethroughCheckBox
 			strikethroughCheckBox.FlatStyle = FlatStyle.System;
 			strikethroughCheckBox.Location = new Point( 8, 16 );
 			strikethroughCheckBox.TabIndex = 0;
-			strikethroughCheckBox.Text = "Strikethrough";
+			strikethroughCheckBox.Text = Locale.GetText("Strikethrough");
 			// colorComboBox
 			colorComboBox.Location = new Point( 8, 70 );
 			colorComboBox.Size = new Size( 130, 21 );
@@ -271,7 +271,7 @@ namespace System.Windows.Forms
 			sizeLabel.Location = new Point( 284, 10 );
 			sizeLabel.Size = new Size( 100, 16 );
 			sizeLabel.TabIndex = 2;
-			sizeLabel.Text = "Size:";
+			sizeLabel.Text = Locale.GetText("Size:");
 			// scriptComboBox
 			scriptComboBox.Location = new Point( 164, 253 );
 			scriptComboBox.Size = new Size( 172, 21 );
@@ -282,30 +282,30 @@ namespace System.Windows.Forms
 			okButton.Location = new Point( 352, 26 );
 			okButton.Size = new Size( 70, 23 );
 			okButton.TabIndex = 3;
-			okButton.Text = "OK";
+			okButton.Text = Locale.GetText("OK");
 			// cancelButton
 			cancelButton.FlatStyle = FlatStyle.System;
 			cancelButton.Location = new Point( 352, 52 );
 			cancelButton.Size = new Size( 70, 23 );
 			cancelButton.TabIndex = 4;
-			cancelButton.Text = "Cancel";
+			cancelButton.Text = Locale.GetText("Cancel");
 			// applyButton
 			applyButton.FlatStyle = FlatStyle.System;
 			applyButton.Location = new Point( 352, 78 );
 			applyButton.Size = new Size( 70, 23 );
 			applyButton.TabIndex = 5;
-			applyButton.Text = "Apply";
+			applyButton.Text = Locale.GetText("Apply");
 			// helpButton
 			helpButton.FlatStyle = FlatStyle.System;
 			helpButton.Location = new Point( 352, 104 );
 			helpButton.Size = new Size( 70, 23 );
 			helpButton.TabIndex = 6;
-			helpButton.Text = "Help";
+			helpButton.Text = Locale.GetText("Help");
 			// underlinedCheckBox
 			underlinedCheckBox.FlatStyle = FlatStyle.System;
 			underlinedCheckBox.Location = new Point( 8, 36 );
 			underlinedCheckBox.TabIndex = 1;
-			underlinedCheckBox.Text = "Underlined";
+			underlinedCheckBox.Text = Locale.GetText("Underlined");
 			// fontstyleTextBox
 			fontstyleTextBox.Location = new Point( 164, 26 );
 			fontstyleTextBox.Size = new Size( 112, 21 );
@@ -315,7 +315,7 @@ namespace System.Windows.Forms
 			scriptLabel.Location = new Point( 164, 236 );
 			scriptLabel.Size = new Size( 100, 16 );
 			scriptLabel.TabIndex = 13;
-			scriptLabel.Text = "Script:";
+			scriptLabel.Text = Locale.GetText("Script:");
 			// examplePanel
 			examplePanel.Location = new Point( 8, 20 );
 			examplePanel.TabIndex = 0;
@@ -351,7 +351,7 @@ namespace System.Windows.Forms
 			form.FormBorderStyle = FormBorderStyle.FixedDialog;
 			form.MaximizeBox = false;
 			
-			form.Text = "Font";
+			form.Text = Locale.GetText("Font");
 			
 			form.ResumeLayout( false );
 			
@@ -1325,4 +1325,3 @@ namespace System.Windows.Forms
 		}
 	}
 }
-

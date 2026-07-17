@@ -247,5 +247,31 @@
   <data name="Typing">
     <value>Typing</value>
   </data>
-  
+  <data name="Font Style:" xml:space="preserve">
+    <value>Font Style:</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="Font:" xml:space="preserve">
+    <value>Font:</value>
+  </data>
+  <data name="Effects" xml:space="preserve">
+    <value>Effects</value>
+  </data>
+  <data name="Size:" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Strikethroug</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="Underlined" xml:space="preserve">
+    <value>Underlined</value>
+  </data>
+  <data name="Script:" xml:space="preserve">
+    <value>Script:</value>
+  </data>
 </root>

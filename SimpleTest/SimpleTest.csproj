@@ -1,9 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <Nullable>enable</Nullable>
     <ApplicationIcon />
-    <StartupObject />
+    <StartupObject>SimpleTest.Program</StartupObject>
+
+    <!-- Отключаем стандартный WinForms -->
+    <UseWindowsForms>false</UseWindowsForms>
+    <EnableWindowsTargeting>false</EnableWindowsTargeting>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,6 +17,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- Подключаем наш кастомный Windows.Forms -->
     <ProjectReference Include="..\System.Windows.Forms\System.Windows.Forms.csproj" />
   </ItemGroup>
 

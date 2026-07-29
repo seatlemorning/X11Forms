@@ -1,239 +1,199 @@
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-//
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-// Copyright (c) 2007 Novell, Inc.
-//
-// Authors:
-//	Jonathan Pobst (monkey@jpobst.com)
-
+// RadioButtonPainter.cs
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace System.Windows.Forms.Theming.Default
 {
-	/// <summary>
-	/// Summary description for Button.
-	/// </summary>
-	internal class RadioButtonPainter
-	{
-		public RadioButtonPainter ()
-		{
-		}
+    internal class RadioButtonPainter
+    {
+        public RadioButtonPainter()
+        {
+        }
 
-		protected SystemResPool ResPool { get { return ThemeEngine.Current.ResPool; } }
+        protected SystemResPool ResPool { get { return ThemeEngine.Current.ResPool; } }
 
-		public void PaintRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, ElementState state, FlatStyle style, bool isChecked)
-		{
-			switch (style) {
-				case FlatStyle.Standard:
-				case FlatStyle.System:
-					switch (state) {
-						case ElementState.Normal:
-							DrawNormalRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Hot:
-							DrawHotRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Pressed:
-							DrawPressedRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Disabled:
-							DrawDisabledRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-					}
-					break;
-				case FlatStyle.Flat:
-					switch (state) {
-						case ElementState.Normal:
-							DrawFlatNormalRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Hot:
-							DrawFlatHotRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Pressed:
-							DrawFlatPressedRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Disabled:
-							DrawFlatDisabledRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-					}
-					break;
-				case FlatStyle.Popup:
-					switch (state) {
-						case ElementState.Normal:
-							DrawPopupNormalRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Hot:
-							DrawPopupHotRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Pressed:
-							DrawPopupPressedRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-						case ElementState.Disabled:
-							DrawPopupDisabledRadioButton (g, bounds, backColor, foreColor, isChecked);
-							break;
-					}
-					break;
-			}
-		}
+        private static Color PrimaryColor = Color.FromArgb(25, 118, 210);
+        private static Color PrimaryHover = Color.FromArgb(21, 101, 192);
+        private static Color BorderColor = Color.FromArgb(224, 224, 224);
 
-		#region Standard
-		public virtual void DrawNormalRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			ButtonState bs = ButtonState.Normal;
+        public void PaintRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, ElementState state, FlatStyle style, bool isChecked)
+        {
+            switch (style)
+            {
+                case FlatStyle.Standard:
+                case FlatStyle.System:
+                    switch (state)
+                    {
+                        case ElementState.Normal:
+                            DrawNormalRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Hot:
+                            DrawHotRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Pressed:
+                            DrawPressedRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Disabled:
+                            DrawDisabledRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                    }
+                    break;
+                case FlatStyle.Flat:
+                    switch (state)
+                    {
+                        case ElementState.Normal:
+                            DrawFlatNormalRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Hot:
+                            DrawFlatHotRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Pressed:
+                            DrawFlatPressedRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Disabled:
+                            DrawFlatDisabledRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                    }
+                    break;
+                case FlatStyle.Popup:
+                    switch (state)
+                    {
+                        case ElementState.Normal:
+                            DrawPopupNormalRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Hot:
+                            DrawPopupHotRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Pressed:
+                            DrawPopupPressedRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                        case ElementState.Disabled:
+                            DrawPopupDisabledRadioButton(g, bounds, backColor, foreColor, isChecked);
+                            break;
+                    }
+                    break;
+            }
+        }
 
-			if (isChecked)
-				bs |= ButtonState.Checked;
+        #region Standard
+        public virtual void DrawNormalRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false);
+        }
 
-			ControlPaint.DrawRadioButton (g, bounds, bs);
-		}
+        public virtual void DrawHotRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, true, false);
+        }
 
-		public virtual void DrawHotRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			DrawNormalRadioButton (g, bounds, backColor, foreColor, isChecked);
-		}
+        public virtual void DrawPressedRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, true);
+        }
 
-		public virtual void DrawPressedRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			ButtonState bs = ButtonState.Pushed;
+        public virtual void DrawDisabledRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false, true);
+        }
+        #endregion
 
-			if (isChecked)
-				bs |= ButtonState.Checked;
+        #region FlatStyle
+        public virtual void DrawFlatNormalRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false);
+        }
 
-			ControlPaint.DrawRadioButton (g, bounds, bs);
-		}
+        public virtual void DrawFlatHotRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, true, false);
+        }
 
-		public virtual void DrawDisabledRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			ButtonState bs = ButtonState.Inactive;
+        public virtual void DrawFlatPressedRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, true);
+        }
 
-			if (isChecked)
-				bs |= ButtonState.Checked;
+        public virtual void DrawFlatDisabledRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false, true);
+        }
+        #endregion
 
-			ControlPaint.DrawRadioButton (g, bounds, bs);
-		}
-		#endregion
+        #region Popup
+        public virtual void DrawPopupNormalRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false);
+        }
 
-		#region FlatStyle
-		public virtual void DrawFlatNormalRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLightLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+        public virtual void DrawPopupHotRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, true, false);
+        }
 
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
+        public virtual void DrawPopupPressedRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, true);
+        }
 
-		public virtual void DrawFlatHotRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+        public virtual void DrawPopupDisabledRadioButton(Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
+        {
+            DrawModernRadioButton(g, bounds, isChecked, false, false, true);
+        }
+        #endregion
 
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
+        #region Modern RadioButton Drawing
+        private void DrawModernRadioButton(Graphics g, Rectangle bounds, bool isChecked, bool isHot, bool isPressed, bool isDisabled = false)
+        {
+            g.SmoothingMode = SmoothingMode.AntiAlias;
 
-		public virtual void DrawFlatPressedRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLightLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+            int size = Math.Min(bounds.Width, bounds.Height);
+            var rect = new Rectangle(
+                bounds.X + (bounds.Width - size) / 2,
+                bounds.Y + (bounds.Height - size) / 2,
+                size, size);
 
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
+            Color borderColor, innerColor;
 
-		public virtual void DrawFlatDisabledRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.FillPie (SystemBrushes.Control, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
-			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
+            if (isDisabled)
+            {
+                borderColor = Color.FromArgb(210, 210, 210);
+                innerColor = Color.FromArgb(180, 180, 180);
+            }
+            else if (isChecked)
+            {
+                borderColor = isHot || isPressed ? PrimaryHover : PrimaryColor;
+                innerColor = isHot || isPressed ? PrimaryHover : PrimaryColor;
+            }
+            else
+            {
+                borderColor = isHot ? PrimaryHover : BorderColor;
+                innerColor = PrimaryColor;
+            }
 
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDark);
-		}
-		#endregion
+            if (isChecked && !isDisabled)
+            {
+                using (var shadowBrush = new SolidBrush(Color.FromArgb(40, PrimaryColor)))
+                {
+                    var shadowRect = new Rectangle(rect.X + 1, rect.Y + 2, rect.Width, rect.Height);
+                    g.FillEllipse(shadowBrush, shadowRect);
+                }
+            }
 
-		#region Popup
-		public virtual void DrawPopupNormalRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
-			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
+            using (var pen = new Pen(borderColor, 2))
+                g.DrawEllipse(pen, rect);
 
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
+            if (isChecked)
+            {
+                var innerRect = Rectangle.Inflate(rect, -6, -6);
+                using (var brush = new SolidBrush(Color.White))
+                    g.FillEllipse(brush, innerRect);
 
-		public virtual void DrawPopupHotRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
-			g.DrawArc (SystemPens.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
-
-			g.DrawArc (SystemPens.ControlDark, bounds, 135, 180);
-			g.DrawArc (SystemPens.ControlLightLight, bounds, 315, 180);
-
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
-
-		public virtual void DrawPopupPressedRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
-			g.DrawArc (SystemPens.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
-
-			g.DrawArc (SystemPens.ControlDark, bounds, 135, 180);
-			g.DrawArc (SystemPens.ControlLightLight, bounds, 315, 180);
-
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
-
-		public virtual void DrawPopupDisabledRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
-		{
-			g.FillPie (SystemBrushes.Control, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
-			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
-
-			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
-		}
-		#endregion
-
-		#region Glyph
-		protected void DrawFlatRadioGlyphDot (Graphics g, Rectangle bounds, Color dotColor)
-		{
-			int lineWidth = Math.Max (1, Math.Min (bounds.Width, bounds.Height) / 3);
-
-			Pen dot_pen = ResPool.GetPen (dotColor);
-			Brush dot_brush = ResPool.GetSolidBrush (dotColor);
-
-			if (bounds.Height > 13) {
-				g.FillPie (dot_brush, bounds.X + lineWidth, bounds.Y + lineWidth, bounds.Width - lineWidth * 2, bounds.Height - lineWidth * 2, 0, 359);
-			} else {
-				int x_half_pos = (bounds.Width / 2) + bounds.X;
-				int y_half_pos = (bounds.Height / 2) + bounds.Y;
-
-				g.DrawLine (dot_pen, x_half_pos - 1, y_half_pos, x_half_pos + 2, y_half_pos);
-				g.DrawLine (dot_pen, x_half_pos - 1, y_half_pos + 1, x_half_pos + 2, y_half_pos + 1);
-
-				g.DrawLine (dot_pen, x_half_pos, y_half_pos - 1, x_half_pos, y_half_pos + 2);
-				g.DrawLine (dot_pen, x_half_pos + 1, y_half_pos - 1, x_half_pos + 1, y_half_pos + 2);
-			}
-		}
-		#endregion
-	}
+                var accentRect = Rectangle.Inflate(rect, -8, -8);
+                using (var brush = new SolidBrush(Color.FromArgb(50, Color.White)))
+                    g.FillEllipse(brush, accentRect);
+            }
+        }
+        #endregion
+    }
 }

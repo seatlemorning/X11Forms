@@ -33,13 +33,9 @@ namespace System.Windows.Forms
 	{
 		static private Theme theme = null;
 		
-		static ThemeEngine ()
+		static ThemeEngine()
 		{
-			if (Application.VisualStylesEnabled) {
-				theme = new ThemeVisualStyles ();
-			} else {
-				theme = new ThemeWin32Classic ();
-			}
+			theme = new ThemeModernFlat();
 		}
 		
 			

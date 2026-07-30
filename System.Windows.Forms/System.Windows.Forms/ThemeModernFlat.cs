@@ -34,13 +34,191 @@ namespace System.Windows.Forms
         private static readonly Color TextDisabled = Color.FromArgb(189, 189, 189);
         private static readonly Color TextHint = Color.FromArgb(158, 158, 158);
 
+        public override Color ColorScrollBar
+        {
+            get { return BackgroundColor; }
+            set { }
+        }
+
+        public override Color ColorDesktop
+        {
+            get { return BackgroundColor; }
+            set { }
+        }
+
+        public override Color ColorActiveCaption
+        {
+            get { return PrimaryColor; }
+            set { }
+        }
+
+        public override Color ColorInactiveCaption
+        {
+            get { return Color.FromArgb(189, 195, 199); }
+            set { }
+        }
+
+        public override Color ColorMenu
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorWindow
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorWindowFrame
+        {
+            get { return BorderColor; }
+            set { }
+        }
+
+        public override Color ColorMenuText
+        {
+            get { return TextColor; }
+            set { }
+        }
+
+        public override Color ColorWindowText
+        {
+            get { return TextColor; }
+            set { }
+        }
+
+        public override Color ColorActiveCaptionText
+        {
+            get { return Color.White; }
+            set { }
+        }
+
+        public override Color ColorActiveBorder
+        {
+            get { return PrimaryColor; }
+            set { }
+        }
+
+        public override Color ColorAppWorkspace
+        {
+            get { return BackgroundColor; }
+            set { }
+        }
+
+        public override Color ColorHighlight
+        {
+            get { return PrimaryColor; }
+            set { }
+        }
+
+        public override Color ColorHighlightText
+        {
+            get { return Color.White; }
+            set { }
+        }
+
+        public override Color ColorControl
+        {
+            get { return BackgroundColor; }
+            set { }
+        }
+
+        public override Color ColorControlDark
+        {
+            get { return BorderColor; }
+            set { }
+        }
+
+        public override Color ColorGrayText
+        {
+            get { return TextDisabled; }
+            set { }
+        }
+
+        public override Color ColorControlText
+        {
+            get { return TextColor; }
+            set { }
+        }
+
+        public override Color ColorInactiveCaptionText
+        {
+            get { return TextDisabled; }
+            set { }
+        }
+
+        public override Color ColorControlLight
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorControlDarkDark
+        {
+            get { return Color.FromArgb(180, 180, 180); }
+            set { }
+        }
+
+        public override Color ColorControlLightLight
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorButtonFace
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorInfoText
+        {
+            get { return TextColor; }
+            set { }
+        }
+
+        public override Color ColorInfo
+        {
+            get { return PrimaryLight; }
+            set { }
+        }
+
+        public override Color ColorHotTrack
+        {
+            get { return PrimaryHover; }
+            set { }
+        }
+
+        public override Color DefaultControlBackColor
+        {
+            get { return BackgroundColor; }
+            set { }
+        }
+
+        public override Color DefaultControlForeColor
+        {
+            get { return TextColor; }
+            set { }
+        }
+
+        public override Color DefaultWindowBackColor
+        {
+            get { return ControlBackground; }
+        }
+
+        public override Color DefaultWindowForeColor
+        {
+            get { return TextColor; }
+        }
+
         // ===== STANDARD StringFormat =====
         private static readonly StringFormat string_format = new StringFormat
         {
             Alignment = StringAlignment.Center,
             LineAlignment = StringAlignment.Center,
             HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.Show,
-            Trimming = StringTrimming.EllipsisCharacter,
+            Trimming = StringTrimming.None,
             FormatFlags = StringFormatFlags.NoWrap
         };
 
@@ -83,8 +261,8 @@ namespace System.Windows.Forms
 
             defaultWindowBackColor = ControlBackground;
             defaultWindowForeColor = TextColor;
-
-            ColorControl = BackgroundColor;
+            DefaultControlBackColor = ControlBackground;
+            DefaultControlForeColor = TextColor;
             ColorControlText = TextColor;
             ColorControlDark = BorderColor;
             ColorControlLight = ControlBackground;
@@ -291,6 +469,192 @@ namespace System.Windows.Forms
                 }
             }
         }
+
+        protected override void DrawStatusBarPanelBackground(Graphics dc, Rectangle area, StatusBarPanel panel)
+        {
+// Белый фон для панелей
+            using (var brush = new SolidBrush(Color.White))
+            {
+                dc.FillRectangle(brush, area);
+            }
+        }
+
+        public override void DrawStatusBar(Graphics real_dc, Rectangle clip, StatusBar sb)
+        {
+// Создаем буфер для рисования
+            Image backbuffer = new Bitmap(sb.ClientSize.Width, sb.ClientSize.Height, real_dc);
+            Graphics dc = Graphics.FromImage(backbuffer);
+
+// БЕЛЫЙ ФОН
+            using (var brush = new SolidBrush(Color.White))
+            {
+                dc.FillRectangle(brush, sb.ClientRectangle);
+            }
+
+// Тонкая серая линия сверху
+            using (var pen = new Pen(Color.FromArgb(230, 230, 230), 1))
+            {
+                dc.DrawLine(pen, 0, 0, sb.Width, 0);
+            }
+
+// Рисуем панели статус-бара
+            if (sb.ShowPanels)
+            {
+                Brush br_forecolor = new SolidBrush(Color.FromArgb(44, 62, 80));
+                int prev_x = sb.ClientRectangle.X + 2;
+                int y = sb.ClientRectangle.Y + 2;
+
+                for (int i = 0; i < sb.Panels.Count; i++)
+                {
+                    Rectangle pr = new Rectangle(prev_x, y,
+                        sb.Panels[i].Width, sb.ClientRectangle.Height);
+                    prev_x += pr.Width + 3;
+
+                    if (pr.IntersectsWith(clip))
+                    {
+                        // Фон панели - белый
+                        using (var panelBrush = new SolidBrush(Color.White))
+                        {
+                            dc.FillRectangle(panelBrush, pr);
+                        }
+
+                        // Текст панели
+                        StringFormat string_format = new StringFormat();
+                        string_format.Trimming = StringTrimming.Character;
+                        string_format.FormatFlags = StringFormatFlags.NoWrap;
+                        string_format.LineAlignment = StringAlignment.Center;
+
+                        if (sb.Panels[i].Text != null && sb.Panels[i].Text.Length > 0)
+                        {
+                            dc.DrawString(sb.Panels[i].Text, sb.Font, br_forecolor, pr, string_format);
+                        }
+                    }
+                }
+            }
+            else if (sb.Text != String.Empty)
+            {
+                // Обычный текст статус-бара
+                using (var brush = new SolidBrush(Color.FromArgb(44, 62, 80)))
+                {
+                    dc.DrawString(sb.Text, sb.Font, brush,
+                        new Rectangle(2, 2, sb.Width - 4, sb.Height - 4));
+                }
+            }
+
+// Отрисовываем grip (уголок для изменения размера)
+            if (sb.SizingGrip)
+            {
+                using (var pen = new Pen(Color.FromArgb(180, 180, 180), 1))
+                {
+                    int size = 12;
+                    var rect = new Rectangle(sb.Width - size - 3, sb.Height - size - 3, size, size);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        int x = rect.X + i * 3;
+                        int y = rect.Y + i * 3;
+                        dc.DrawLine(pen, x, rect.Bottom, rect.Right, y);
+                    }
+                }
+            }
+
+// Применяем буфер
+            real_dc.DrawImage(backbuffer, 0, 0);
+            dc.Dispose();
+            backbuffer.Dispose();
+        }
+
+        public override void DrawTabControl(Graphics dc, Rectangle area, TabControl tab)
+        {
+// БЕЛЫЙ ФОН для всей области вкладок
+            using (var brush = new SolidBrush(Color.White))
+            {
+                dc.FillRectangle(brush, tab.ClientRectangle);
+            }
+
+// Фиксированная высота вкладок
+            int fixedHeight = 28;
+            int headerHeight = 0;
+
+// Рисуем каждую вкладку
+            foreach (TabPage page in tab.TabPages)
+            {
+                bool isSelected = page == tab.SelectedTab;
+                int idx = tab.TabPages.IndexOf(page);
+                Rectangle tabRect = tab.GetTabRect(idx);
+
+                // Фиксируем высоту вкладки
+                tabRect.Height = fixedHeight;
+                headerHeight = fixedHeight;
+
+                if (tabRect.IntersectsWith(area))
+                {
+                    Color backColor, textColor;
+
+                    if (isSelected)
+                    {
+                        backColor = Color.White;
+                        textColor = Color.FromArgb(44, 62, 80);
+                    }
+                    else
+                    {
+                        backColor = Color.FromArgb(248, 249, 250);
+                        textColor = Color.FromArgb(44, 62, 80);
+                    }
+
+                    // Рисуем вкладку
+                    using (var brush = new SolidBrush(backColor))
+                    {
+                        var path = new GraphicsPath();
+                        int radius = 3;
+                        path.AddArc(tabRect.X, tabRect.Y + radius, radius * 2, radius * 2, 180, 90);
+                        path.AddArc(tabRect.Right - radius * 2, tabRect.Y + radius, radius * 2, radius * 2, 270, 90);
+                        path.AddLine(tabRect.Right, tabRect.Bottom, tabRect.X, tabRect.Bottom);
+                        path.CloseFigure();
+                        dc.FillPath(brush, path);
+                    }
+
+                    // Текст вкладки
+                    if (!string.IsNullOrEmpty(page.Text))
+                    {
+                        using (var brush = new SolidBrush(textColor))
+                        using (var format = new StringFormat
+                               {
+                                   Alignment = StringAlignment.Center,
+                                   LineAlignment = StringAlignment.Center,
+                                   HotkeyPrefix = System.Drawing.Text.HotkeyPrefix.Show,
+                                   Trimming = StringTrimming.EllipsisCharacter
+                               })
+                        {
+                            dc.DrawString(page.Text, page.Font, brush, tabRect, format);
+                        }
+                    }
+                }
+            }
+
+// Рамка вокруг области содержимого
+            if (tab.TabPages.Count > 0)
+            {
+                // Линия под всеми вкладками (сплошная)
+                using (var pen = new Pen(Color.FromArgb(200, 200, 200), 1))
+                {
+                    int lineY = headerHeight;
+                    dc.DrawLine(pen, 0, lineY, tab.ClientRectangle.Width, lineY);
+                }
+
+                // Рамка вокруг панели содержимого
+                using (var pen = new Pen(Color.FromArgb(200, 200, 200), 1))
+                {
+                    var panelRect = new Rectangle(
+                        0,
+                        headerHeight,
+                        tab.ClientRectangle.Width - 1,
+                        tab.ClientRectangle.Height - headerHeight - 1
+                    );
+                    dc.DrawRectangle(pen, panelRect);
+                }
+            }
+        }
+
 
         private void DrawRippleEffect(Graphics g, ButtonBase button, Rectangle rect, int radius)
         {

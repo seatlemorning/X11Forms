@@ -51,7 +51,7 @@ namespace System.Windows.Forms.PropertyGridInternal {
 		private const int VALUE_PAINT_INDENT = 27;
 		private double splitter_percent = .5;
 		private int row_height;
-		private int font_height_padding = 3;
+		private int font_height_padding = 5;
 		private PropertyGridTextBox grid_textbox;
 		private PropertyGrid property_grid;
 		private bool resizing_grid;

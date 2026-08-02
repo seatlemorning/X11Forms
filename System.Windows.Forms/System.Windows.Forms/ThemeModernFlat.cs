@@ -353,91 +353,71 @@ namespace System.Windows.Forms
 
             g.SmoothingMode = SmoothingMode.AntiAlias;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            
+            bool isOkButton = IsOkButton(button);
 
             Color backColor;
             Color borderColor;
             Color textColor;
-
-            bool isPrimary = IsDialogPrimary(button);
-            bool isCancel = IsDialogCancel(button);
-
-// Определяем цвета
+            
             if (isDisabled)
             {
-                backColor = Color.FromArgb(240, 240, 240);
-                borderColor = Color.FromArgb(200, 200, 200);
+                backColor = Color.FromArgb(240, 241, 243);
+                borderColor = Color.FromArgb(200, 202, 205);
                 textColor = TextDisabled;
             }
             else if (isPressed)
             {
-                if (isPrimary)
+                if (isOkButton)
                 {
                     backColor = PrimaryPressed;
                     borderColor = PrimaryPressed;
                     textColor = Color.White;
                 }
-                else if (isCancel)
-                {
-                    backColor = Color.OrangeRed;
-                    borderColor = Color.Black;
-                    textColor = Color.White;
-                }
                 else
                 {
-                    backColor = isFlat ? Color.FromArgb(230, 230, 230) : ControlPressed;
-                    borderColor = isFlat ? Color.FromArgb(160, 160, 160) : BorderColor;
+                    backColor = isFlat ? Color.FromArgb(235, 236, 238) : ControlPressed;
+                    borderColor = isFlat ? Color.FromArgb(160, 162, 166) : BorderColor;
                     textColor = TextColor;
                 }
             }
             else if (isHot)
             {
-                if (isPrimary)
+                if (isOkButton)
                 {
                     backColor = PrimaryHover;
                     borderColor = PrimaryHover;
                     textColor = Color.White;
                 }
-                else if (isCancel)
-                {
-                    backColor = Color.OrangeRed;
-                    borderColor = Color.Black;
-                    textColor = Color.White;
-                }
                 else
                 {
-                    backColor = isFlat ? Color.FromArgb(240, 240, 240) : ControlHover;
-                    borderColor = isFlat ? Color.FromArgb(150, 150, 150) : BorderHover;
+                    backColor = isFlat ? Color.FromArgb(242, 243, 245) : ControlHover;
+                    borderColor = isFlat ? Color.FromArgb(160, 162, 166) : BorderHover;
                     textColor = TextColor;
                 }
             }
             else
             {
-                if (isPrimary)
+                if (isOkButton)
                 {
                     backColor = PrimaryColor;
                     borderColor = PrimaryColor;
                     textColor = Color.White;
                 }
-                else if (isCancel)
-                {
-                    backColor = Color.Red;
-                    borderColor = Color.Black;
-                    textColor = Color.White;
-                }
                 else
                 {
                     backColor = isFlat ? Color.White : ControlBackground;
-                    borderColor = isFlat ? Color.FromArgb(200, 200, 200) : (isFlat ? Color.Transparent : BorderColor);
+                    borderColor = isFlat ? Color.FromArgb(200, 202, 205) : BorderColor;
                     textColor = TextColor;
                 }
             }
-            
+
             int radius = isFlat ? 6 : 10;
             var drawRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
             
-            if (!isFlat && !isDisabled && !isPressed)
+            if (!isFlat && !isDisabled && !isPressed && !isOkButton)
             {
-                int shadowAlpha = isHot ? 20 : 12;
+                int shadowAlpha = isHot ? 15 : 10;
                 using (var shadowBrush = new SolidBrush(Color.FromArgb(shadowAlpha, 0, 0, 0)))
                 {
                     var shadowRect = new Rectangle(drawRect.X + 1, drawRect.Y + 3, drawRect.Width, drawRect.Height);
@@ -445,19 +425,24 @@ namespace System.Windows.Forms
                         g.FillPath(shadowBrush, path);
                 }
             }
-            
+
             using (var path = GetRoundedRectangle(drawRect, radius))
             {
                 using (var brush = new SolidBrush(backColor))
                     g.FillPath(brush, path);
                 
-                if (!isPrimary || isFlat)
+                if (isOkButton)
+                {
+                    using (var pen = new Pen(ControlPaint.Dark(backColor, 5), 1))
+                        g.DrawPath(pen, path);
+                }
+                else
                 {
                     using (var pen = new Pen(borderColor, 1))
                         g.DrawPath(pen, path);
                 }
             }
-            
+
             int offsetX = isPressed ? 1 : 0;
             int offsetY = isPressed ? 1 : 0;
 
@@ -465,8 +450,7 @@ namespace System.Windows.Forms
                 textBounds.Offset(offsetX, offsetY);
             if (imageBounds != Rectangle.Empty)
                 imageBounds.Offset(offsetX, offsetY);
-            
-            
+
             if (!string.IsNullOrEmpty(button.Text) && textBounds.Width > 0 && textBounds.Height > 0)
             {
                 using (var brush = new SolidBrush(textColor))
@@ -474,7 +458,7 @@ namespace System.Windows.Forms
                     g.DrawString(button.Text, button.Font, brush, textBounds, string_format);
                 }
             }
-            
+
             if (button.Focused && button.Enabled && button.ShowFocusCues && !isFlat)
             {
                 using (var pen = new Pen(Color.FromArgb(80, PrimaryColor), 1.5f) { DashStyle = DashStyle.Dot })
@@ -508,52 +492,14 @@ namespace System.Windows.Forms
             return path;
         }
 
-        private bool IsDialogPrimary(ButtonBase button)
+        private bool IsOkButton(ButtonBase button)
         {
-            if (button is Button b)
-            {
-                Form form = b.FindForm();
-                if (form != null && form.AcceptButton == b)
-                    return true;
-
-                if (b.DialogResult == DialogResult.OK ||
-                    b.DialogResult == DialogResult.Yes)
-                    return true;
-
-                string text = b.Text?.ToLowerInvariant() ?? "";
-                return text == "ok" ||
-                       text == "save" ||
-                       text == "сохранить" ||
-                       text == "применить" ||
-                       text == "apply" ||
-                       text == "сохранить / закрыть" ||
-                       text == "да" ||
-                       text == "yes";
-            }
-
-            return false;
-        }
-
-        private bool IsDialogCancel(ButtonBase button)
-        {
-            if (button is Button b)
-            {
-                Form form = b.FindForm();
-                if (form != null && form.CancelButton == b)
-                    return true;
-
-                if (b.DialogResult == DialogResult.Cancel ||
-                    b.DialogResult == DialogResult.No)
-                    return true;
-
-                string text = b.Text?.ToLowerInvariant() ?? "";
-                return text == "cancel" ||
-                       text == "close" ||
-                       text == "отмена" ||
-                       text == "закрыть" ||
-                       text == "нет" ||
-                       text == "no";
-            }
+            var btn = button as Button;
+            if (btn == null)
+                return false;
+            
+            if (btn.DialogResult == DialogResult.OK)
+                return true;
 
             return false;
         }

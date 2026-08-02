@@ -141,7 +141,7 @@
       <Docs>
         <remarks>
           <attribution license="cc4" from="Microsoft" modified="false" />
-          <para>Use this method when you want to customize certain visual aspects of the <see cref="T:System.Windows.Forms.ToolTip" />, but want a standard ToolTip background drawn for you using the current value of <see cref="P:System.Drawing.SystemColors.Info" />. The background is drawn to fill the area specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property. </para>
+          <para>Use this method when you want to customize certain visual aspects of the <see cref="T:System.Windows.Forms.ToolTip" />, but want a standard ToolTip background drawn for you using the current value of <see cref="P:System.Drawing.ThemeEngine.Current.ColorInfo" />. The background is drawn to fill the area specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property. </para>
         </remarks>
         <summary>
           <attribution license="cc4" from="Microsoft" modified="false" />
@@ -162,7 +162,7 @@
       <Docs>
         <remarks>
           <attribution license="cc4" from="Microsoft" modified="false" />
-          <para>Use this method when you want to customize certain visual aspects of a <see cref="T:System.Windows.Forms.ToolTip" />, but want a standard ToolTip border drawn for you using the current value of <see cref="P:System.Drawing.SystemColors.WindowFrame" />. The border is drawn to the size specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property. You can increase the bounds of the <see cref="T:System.Windows.Forms.ToolTip" /> before it is shown by handling the <see cref="E:System.Windows.Forms.ToolTip.Popup" /> event.</para>
+          <para>Use this method when you want to customize certain visual aspects of a <see cref="T:System.Windows.Forms.ToolTip" />, but want a standard ToolTip border drawn for you using the current value of <see cref="P:System.Drawing.ThemeEngine.Current.ColorWindowFrame" />. The border is drawn to the size specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property. You can increase the bounds of the <see cref="T:System.Windows.Forms.ToolTip" /> before it is shown by handling the <see cref="E:System.Windows.Forms.ToolTip.Popup" /> event.</para>
         </remarks>
         <summary>
           <attribution license="cc4" from="Microsoft" modified="false" />
@@ -183,7 +183,7 @@
       <Docs>
         <remarks>
           <attribution license="cc4" from="Microsoft" modified="false" />
-          <para>The <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText" /> method represents the default method of displaying a <see cref="T:System.Windows.Forms.ToolTip" />. This method uses the system specified font and the current value of <see cref="P:System.Drawing.SystemColors.InfoText" /> for the font color. The text is drawn as a single line centered horizontally and vertically within the rectangle specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property; it is equivalent to the following call to the overloaded version of <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText(System.Windows.Forms.TextFormatFlags)" />:</para>
+          <para>The <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText" /> method represents the default method of displaying a <see cref="T:System.Windows.Forms.ToolTip" />. This method uses the system specified font and the current value of <see cref="P:System.Drawing.ThemeEngine.Current.ColorInfoText" /> for the font color. The text is drawn as a single line centered horizontally and vertically within the rectangle specified by the <see cref="P:System.Windows.Forms.DrawToolTipEventArgs.Bounds" /> property; it is equivalent to the following call to the overloaded version of <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText(System.Windows.Forms.TextFormatFlags)" />:</para>
           <para>DrawText(TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.SingleLine | TextFormatFlags.HidePrefix)</para>
         </remarks>
         <summary>
@@ -207,7 +207,7 @@
       <Docs>
         <remarks>
           <attribution license="cc4" from="Microsoft" modified="false" />
-          <para>The <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText(System.Windows.Forms.TextFormatFlags)" /> method is used to customize certain visual aspects of a <see cref="T:System.Windows.Forms.ToolTip" />, including the layout of the ToolTip text. This method uses the system specified font and the current value of <see cref="P:System.Drawing.SystemColors.InfoText" /> for the font color.</para>
+          <para>The <see cref="M:System.Windows.Forms.DrawToolTipEventArgs.DrawText(System.Windows.Forms.TextFormatFlags)" /> method is used to customize certain visual aspects of a <see cref="T:System.Windows.Forms.ToolTip" />, including the layout of the ToolTip text. This method uses the system specified font and the current value of <see cref="P:System.Drawing.ThemeEngine.Current.ColorInfoText" /> for the font color.</para>
         </remarks>
         <summary>
           <attribution license="cc4" from="Microsoft" modified="false" />

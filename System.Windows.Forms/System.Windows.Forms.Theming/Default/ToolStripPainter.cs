@@ -95,7 +95,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (tsmi.IsOnDropDown) {
 				// Drop down menu item
 				if (e.Item.Selected || e.Item.Pressed)
-					e.Graphics.FillRectangle (SystemBrushes.Highlight, paint_here);
+					e.Graphics.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), paint_here);
 			} else {
 				// Top level menu item
 				if (e.Item.Pressed)

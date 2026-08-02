@@ -273,7 +273,7 @@ namespace System.Windows.Forms
 			checked_indices = new CheckedIndexCollection (this);
 			checked_items = new CheckedListViewItemCollection (this);
 			columns = new ColumnHeaderCollection (this);
-			foreground_color = SystemColors.WindowText;
+			foreground_color = ThemeEngine.Current.ColorWindowText;
 			selected_indices = new SelectedIndexCollection (this);
 			selected_items = new SelectedListViewItemCollection (this);
 			items_location = new Point [16];

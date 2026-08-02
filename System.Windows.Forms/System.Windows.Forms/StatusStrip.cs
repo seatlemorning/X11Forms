@@ -162,7 +162,7 @@ namespace System.Windows.Forms
 			base.OnPaintBackground (e);
 			
 			if (this.sizing_grip)
-				this.Renderer.DrawStatusStripSizingGrip (new ToolStripRenderEventArgs (e.Graphics, this, Bounds, SystemColors.Control));
+				this.Renderer.DrawStatusStripSizingGrip (new ToolStripRenderEventArgs (e.Graphics, this, Bounds, ThemeEngine.Current.ColorControl));
 		}
 
 		protected virtual void OnSpringTableLayoutCore ()

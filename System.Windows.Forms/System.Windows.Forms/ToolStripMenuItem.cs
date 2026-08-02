@@ -342,14 +342,14 @@ namespace System.Windows.Forms
 			Image draw_image = this.UseImageMargin ? this.Image : null;
 			
 			// Disable this color detection until we do the color detection for ToolStrip *completely*
-			// Color font_color = this.ForeColor == SystemColors.ControlText ? SystemColors.MenuText : this.ForeColor;
+			// Color font_color = this.ForeColor == ThemeEngine.Current.ColorControlText ? ThemeEngine.Current.ColorMenuText : this.ForeColor;
 			Color font_color = ForeColor;
 			
-			if ((this.Selected || this.Pressed) && this.IsOnDropDown && font_color == SystemColors.MenuText)
-				font_color = SystemColors.HighlightText;
+			if ((this.Selected || this.Pressed) && this.IsOnDropDown && font_color == ThemeEngine.Current.ColorMenuText)
+				font_color = ThemeEngine.Current.ColorHighlightText;
 			
-			if (!this.Enabled && this.ForeColor == SystemColors.ControlText)
-				font_color = SystemColors.GrayText;
+			if (!this.Enabled && this.ForeColor == ThemeEngine.Current.ColorControlText)
+				font_color = ThemeEngine.Current.ColorGrayText;
 			
 			// Gray stuff out if we're disabled
 			draw_image = this.Enabled ? draw_image : ToolStripRenderer.CreateDisabledImage (draw_image);

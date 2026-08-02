@@ -40,7 +40,7 @@ namespace System.Windows.Forms
 
 		#region Public Constructors
 		public ToolStripRenderEventArgs (Graphics g, ToolStrip toolStrip)
-			: this (g, toolStrip, new Rectangle (0, 0, 100, 25), SystemColors.Control)
+			: this (g, toolStrip, new Rectangle (0, 0, 100, 25), ThemeEngine.Current.ColorControl)
 		{
 		}
 		

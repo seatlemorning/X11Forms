@@ -106,7 +106,7 @@ namespace System.Windows.Forms
 			bounds.Width -= 6;
 			
 			if(tabItemText != String.Empty)
-				TextRenderer.DrawText(g, tabItemText, font, bounds, SystemColors.ControlText,flags);
+				TextRenderer.DrawText(g, tabItemText, font, bounds, ThemeEngine.Current.ColorControlText,flags);
 				
 			if(focused)
 				ControlPaint.DrawFocusRectangle(g, bounds);

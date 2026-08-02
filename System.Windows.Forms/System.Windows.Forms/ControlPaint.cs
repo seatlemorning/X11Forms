@@ -157,7 +157,7 @@ namespace System.Windows.Forms {
 
 		#region Public Static Properties
 		public static Color ContrastControlDark {
-			get { return(SystemColors.ControlDark); }
+			get { return(ThemeEngine.Current.ColorControlDark); }
 		}
 		#endregion	// Public Static Properties
 
@@ -371,7 +371,7 @@ namespace System.Windows.Forms {
 		}
 
 		public static void DrawFocusRectangle(Graphics graphics, Rectangle rectangle) {
-			DrawFocusRectangle(graphics, rectangle, SystemColors.Control, SystemColors.ControlText);
+			DrawFocusRectangle(graphics, rectangle, ThemeEngine.Current.ColorControl, ThemeEngine.Current.ColorControlText);
 		}
 
 		public static void DrawFocusRectangle(Graphics graphics, Rectangle rectangle, Color foreColor, Color backColor) {

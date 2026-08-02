@@ -246,7 +246,7 @@ namespace System.Windows.Forms {
 			brightnessControl.TabIndex = 20;
 			
 			// selectedColorPanel
-			selectedColorPanel.BackColor = SystemColors.Desktop;
+			selectedColorPanel.BackColor = ThemeEngine.Current.ColorDesktop;
 			selectedColorPanel.BorderStyle = BorderStyle.Fixed3D;
 			selectedColorPanel.Location = new Point (227, 202);
 			selectedColorPanel.Size = new Size (60, 42);

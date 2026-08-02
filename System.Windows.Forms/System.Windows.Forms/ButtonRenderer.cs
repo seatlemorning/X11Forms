@@ -97,9 +97,9 @@ namespace System.Windows.Forms
 
 			if (buttonText != String.Empty)
 				if (state == PushButtonState.Disabled)
-					TextRenderer.DrawText (g, buttonText, font, focus_rect, SystemColors.GrayText, flags);
+					TextRenderer.DrawText (g, buttonText, font, focus_rect, ThemeEngine.Current.ColorGrayText, flags);
 				else
-					TextRenderer.DrawText (g, buttonText, font, focus_rect, SystemColors.ControlText, flags);
+					TextRenderer.DrawText (g, buttonText, font, focus_rect, ThemeEngine.Current.ColorControlText, flags);
 		}
 
 		public static bool IsBackgroundPartiallyTransparent (PushButtonState state)

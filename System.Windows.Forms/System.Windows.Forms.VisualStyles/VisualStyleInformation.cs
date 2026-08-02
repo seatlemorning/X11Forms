@@ -64,7 +64,7 @@ namespace System.Windows.Forms.VisualStyles
 		public static Color ControlHighlightHot {
 			get {
 				if (!VisualStyleRenderer.IsSupported)
-					return SystemColors.ButtonHighlight;
+					return ThemeEngine.Current.ColorButtonHighlight;
 
 				return VisualStyles.VisualStyleInformationControlHighlightHot;
 			}
@@ -143,7 +143,7 @@ namespace System.Windows.Forms.VisualStyles
 		public static Color TextControlBorder {
 			get {
 				if (!VisualStyleRenderer.IsSupported)
-					return SystemColors.ControlDarkDark;
+					return ThemeEngine.Current.ColorControlDarkDark;
 
 				return VisualStyles.VisualStyleInformationTextControlBorder;
 			}

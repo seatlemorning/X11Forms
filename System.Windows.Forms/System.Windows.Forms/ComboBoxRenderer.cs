@@ -58,9 +58,9 @@ namespace System.Windows.Forms
 
 			if (comboBoxText != String.Empty)
 				if (state == ComboBoxState.Disabled)
-					TextRenderer.DrawText (g, comboBoxText, font, textBounds, SystemColors.GrayText, flags);
+					TextRenderer.DrawText (g, comboBoxText, font, textBounds, ThemeEngine.Current.ColorGrayText, flags);
 				else
-					TextRenderer.DrawText (g, comboBoxText, font, textBounds, SystemColors.ControlText, flags);
+					TextRenderer.DrawText (g, comboBoxText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 		}
 
 		public static void DrawTextBox (Graphics g, Rectangle bounds, ComboBoxState state)

@@ -672,16 +672,16 @@ namespace System.Windows.Forms
 				for (int i = 0; i < 2; i++) {
 					
 					g.FillRectangle (Brushes.White, x3 + (i*18), y3, 18, 24);
-					ControlPaint.DrawBorder (g, new Rectangle (x3 + (i*18), y3, 18, 24), SystemColors.ControlDark, ButtonBorderStyle.Solid);
-					g.DrawString ((i+1).ToString(), font, SystemBrushes.ControlDarkDark, x3 + (i*18) + 5, y3 + 5, StringFormat.GenericTypographic);
+					ControlPaint.DrawBorder (g, new Rectangle (x3 + (i*18), y3, 18, 24), ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
+					g.DrawString ((i+1).ToString(), font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), x3 + (i*18) + 5, y3 + 5, StringFormat.GenericTypographic);
 
 					g.FillRectangle (Brushes.White, x2 + (i*18), y2, 18, 24);
-					ControlPaint.DrawBorder (g, new Rectangle (x2 + (i*18), y2, 18, 24), SystemColors.ControlDark, ButtonBorderStyle.Solid);
-					g.DrawString ((i+1).ToString(), font, SystemBrushes.ControlDarkDark, x2 + (i*18) + 5, y2 + 5, StringFormat.GenericTypographic);
+					ControlPaint.DrawBorder (g, new Rectangle (x2 + (i*18), y2, 18, 24), ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
+					g.DrawString ((i+1).ToString(), font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), x2 + (i*18) + 5, y2 + 5, StringFormat.GenericTypographic);
 				
 					g.FillRectangle (Brushes.White, x1 + (i*18), y1, 18, 24);
-					ControlPaint.DrawBorder (g, new Rectangle (x1 + (i*18), y1, 18, 24), SystemColors.ControlDark, ButtonBorderStyle.Solid);
-					g.DrawString ((i+1).ToString(), font, SystemBrushes.ControlDarkDark, x1 + (i*18) + 5, y1 + 5, StringFormat.GenericTypographic);
+					ControlPaint.DrawBorder (g, new Rectangle (x1 + (i*18), y1, 18, 24), ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
+					g.DrawString ((i+1).ToString(), font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), x1 + (i*18) + 5, y1 + 5, StringFormat.GenericTypographic);
 
 
 					x1 += 28;
@@ -701,12 +701,12 @@ namespace System.Windows.Forms
 				for (int i = 0; i < 3; i++) {
 					
 					g.FillRectangle (Brushes.White, x2 + (i*18), y2, 18, 24);
-					ControlPaint.DrawBorder (g, new Rectangle (x2 + (i*18), y2, 18, 24), SystemColors.ControlDark, ButtonBorderStyle.Solid);
-					g.DrawString ((i+1).ToString(), font, SystemBrushes.ControlDarkDark, x2 + (i*18) + 5, y2 + 5, StringFormat.GenericTypographic);
+					ControlPaint.DrawBorder (g, new Rectangle (x2 + (i*18), y2, 18, 24), ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
+					g.DrawString ((i+1).ToString(), font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), x2 + (i*18) + 5, y2 + 5, StringFormat.GenericTypographic);
 				
 					g.FillRectangle (Brushes.White, x1 + (i*18), y1, 18, 24);
-					ControlPaint.DrawBorder (g, new Rectangle (x1 + (i*18), y1, 18, 24), SystemColors.ControlDark, ButtonBorderStyle.Solid);
-					g.DrawString ((i+1).ToString(), font, SystemBrushes.ControlDarkDark, x1 + (i*18) + 5, y1 + 5, StringFormat.GenericTypographic);
+					ControlPaint.DrawBorder (g, new Rectangle (x1 + (i*18), y1, 18, 24), ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
+					g.DrawString ((i+1).ToString(), font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), x1 + (i*18) + 5, y1 + 5, StringFormat.GenericTypographic);
 
 					x1 += 15;
 					x2 += 15;

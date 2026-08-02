@@ -163,13 +163,13 @@ namespace System.Windows.Forms
 		{
 			Rectangle affected_bounds = new Rectangle (Point.Empty, this.Size);
 
-			ToolStripRenderEventArgs tsrea = new ToolStripRenderEventArgs (e.Graphics, this, affected_bounds, SystemColors.Control);
+			ToolStripRenderEventArgs tsrea = new ToolStripRenderEventArgs (e.Graphics, this, affected_bounds, ThemeEngine.Current.ColorControl);
 			tsrea.InternalConnectedArea = CalculateConnectedArea ();
 
 			this.Renderer.DrawToolStripBackground (tsrea);
 			
 			if (this.ShowCheckMargin || this.ShowImageMargin) {
-				tsrea = new ToolStripRenderEventArgs (e.Graphics, this, new Rectangle (tsrea.AffectedBounds.Location, new Size (25, tsrea.AffectedBounds.Height)), SystemColors.Control);
+				tsrea = new ToolStripRenderEventArgs (e.Graphics, this, new Rectangle (tsrea.AffectedBounds.Location, new Size (25, tsrea.AffectedBounds.Height)), ThemeEngine.Current.ColorControl);
 				this.Renderer.DrawImageMargin (tsrea);
 			}
 		}

@@ -146,7 +146,7 @@ namespace System.Windows.Forms
 
 		private void Init ()
 		{
-			BackColor = SystemColors.Window;
+			BackColor = ThemeEngine.Current.ColorWindow;
 			cut_copy_mask_format = MaskFormat.IncludeLiterals;
 			insert_key_overwriting = false;
 			UpdateVisibleText ();

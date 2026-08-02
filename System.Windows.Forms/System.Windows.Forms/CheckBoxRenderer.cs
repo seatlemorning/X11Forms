@@ -77,9 +77,9 @@ namespace System.Windows.Forms
 
 				if (checkBoxText != String.Empty)
 					if (state == CheckBoxState.CheckedDisabled || state == CheckBoxState.MixedDisabled || state == CheckBoxState.UncheckedDisabled)
-						TextRenderer.DrawText (g, checkBoxText, font, textBounds, SystemColors.GrayText, flags);
+						TextRenderer.DrawText (g, checkBoxText, font, textBounds, ThemeEngine.Current.ColorGrayText, flags);
 					else
-						TextRenderer.DrawText (g, checkBoxText, font, textBounds, SystemColors.ControlText, flags);
+						TextRenderer.DrawText (g, checkBoxText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 			} else {
 				switch (state) {
 					case CheckBoxState.CheckedDisabled:
@@ -115,7 +115,7 @@ namespace System.Windows.Forms
 					ControlPaint.DrawFocusRectangle (g, textBounds);
 
 				if (checkBoxText != String.Empty)
-					TextRenderer.DrawText (g, checkBoxText, font, textBounds, SystemColors.ControlText, flags);
+					TextRenderer.DrawText (g, checkBoxText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 			}
 		}
 

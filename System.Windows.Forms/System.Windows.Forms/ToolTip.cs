@@ -297,8 +297,8 @@ namespace System.Windows.Forms {
 			initial_delay = 500;
 			re_show_delay = 100;
 			show_always = false;
-			back_color = SystemColors.Info;
-			fore_color = SystemColors.InfoText;
+			back_color = ThemeEngine.Current.ColorInfo;
+			fore_color = ThemeEngine.Current.ColorInfoText;
 			
 			isBalloon = false;
 			stripAmpersands = false;

@@ -120,13 +120,13 @@ namespace System.Windows.Forms
 		#region	Internal Methods
 		protected Brush GetControlBackBrush (Color c) {
 			if (c.ToArgb () == DefaultControlBackColor.ToArgb ())
-				return SystemBrushes.Control;
+				return ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
 			return ResPool.GetSolidBrush (c);
 		}
 
 		protected Brush GetControlForeBrush (Color c) {
 			if (c.ToArgb () == DefaultControlForeColor.ToArgb ())
-				return SystemBrushes.ControlText;
+				return ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText);
 			return ResPool.GetSolidBrush (c);
 		}
 		#endregion	// Internal Methods
@@ -142,7 +142,7 @@ namespace System.Windows.Forms
 		public  override void DrawOwnerDrawBackground (DrawItemEventArgs e)
 		{
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected) {
-				e.Graphics.FillRectangle (SystemBrushes.Highlight, e.Bounds);
+				e.Graphics.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), e.Bounds);
 				return;
 			}
 
@@ -692,12 +692,12 @@ namespace System.Windows.Forms
 			} else if (button.FlatStyle == FlatStyle.Flat) {
 				if (button.is_entered && !button.is_pressed && !check_or_radio_checked) {
 					if ((button.image == null) && (button.image_list == null)) {
-						Brush brush = is_ColorControl ? SystemBrushes.ControlDark : ResPool.GetSolidBrush (cpcolor.Dark);
+						Brush brush = is_ColorControl ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark) : ResPool.GetSolidBrush (cpcolor.Dark);
 						dc.FillRectangle (brush, borderRectangle);
 					}
 				} else if (button.is_pressed || check_or_radio_checked) {
 					if ((button.image == null) && (button.image_list == null)) {
-						Brush brush = is_ColorControl ? SystemBrushes.ControlLightLight : ResPool.GetSolidBrush (cpcolor.LightLight);
+						Brush brush = is_ColorControl ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight) : ResPool.GetSolidBrush (cpcolor.LightLight);
 						dc.FillRectangle (brush, borderRectangle);
 					}
 					
@@ -1359,7 +1359,7 @@ namespace System.Windows.Forms
 
 		protected virtual void CheckBox_DrawCheckBox( Graphics dc, CheckBox checkbox, ButtonState state, Rectangle checkbox_rectangle )
 		{
-			Brush brush = checkbox.BackColor.ToArgb () == ColorControl.ToArgb () ? SystemBrushes.Control : ResPool.GetSolidBrush (checkbox.BackColor);
+			Brush brush = checkbox.BackColor.ToArgb () == ColorControl.ToArgb () ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl) : ResPool.GetSolidBrush (checkbox.BackColor);
 			dc.FillRectangle (brush, checkbox.ClientRectangle);			
 			// render as per normal button
 			if (checkbox.appearance==Appearance.Button) {
@@ -1446,7 +1446,7 @@ namespace System.Windows.Forms
 				}
 			} else {
 				if (checkbox.FlatStyle == FlatStyle.Popup) {
-					graphics.FillRectangle(SystemBrushes.Control, fill_rectangle);
+					graphics.FillRectangle(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), fill_rectangle);
 				}	
 			
 				// draw disabled state,
@@ -1497,7 +1497,7 @@ namespace System.Windows.Forms
 			if (button_base.Enabled) {
 				dc.DrawString (button_base.Text, button_base.Font, ResPool.GetSolidBrush (button_base.ForeColor), text_rectangle, text_format);			
 			} else if (button_base.FlatStyle == FlatStyle.Flat || button_base.FlatStyle == FlatStyle.Popup) {
-				dc.DrawString (button_base.Text, button_base.Font, SystemBrushes.ControlDarkDark, text_rectangle, text_format);
+				dc.DrawString (button_base.Text, button_base.Font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), text_rectangle, text_format);
 			} else {
 				CPDrawStringDisabled (dc, button_base.Text, button_base.Font, button_base.BackColor, text_rectangle, text_format);
 			}
@@ -1633,15 +1633,15 @@ namespace System.Windows.Forms
 				arrow[1].X += 1;	arrow[1].Y += 1;
 				arrow[2].X += 1;	arrow[2].Y += 1;
 				
-				graphics.FillPolygon(SystemBrushes.ControlLightLight, arrow, FillMode.Winding);
+				graphics.FillPolygon(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), arrow, FillMode.Winding);
 
 				arrow[0]=P1;
 				arrow[1]=P2;
 				arrow[2]=P3;
 
-				graphics.FillPolygon(SystemBrushes.ControlDark, arrow, FillMode.Winding);
+				graphics.FillPolygon(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark), arrow, FillMode.Winding);
 			} else {
-				graphics.FillPolygon(SystemBrushes.ControlText, arrow, FillMode.Winding);
+				graphics.FillPolygon(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), arrow, FillMode.Winding);
 			}		
 		}
 		public override void ComboBoxDrawNormalDropDownButton (ComboBox comboBox, Graphics g, Rectangle clippingArea, Rectangle area, ButtonState state)
@@ -1668,8 +1668,8 @@ namespace System.Windows.Forms
 				Rectangle area = comboBox.TextArea;
 				area.Height -= 1;
 				area.Width -= 1;
-				g.DrawRectangle (ResPool.GetPen (SystemColors.ControlDark), area);
-				g.DrawLine (ResPool.GetPen (SystemColors.ControlDark), comboBox.ButtonArea.X - 1, comboBox.ButtonArea.Top, comboBox.ButtonArea.X - 1, comboBox.ButtonArea.Bottom);
+				g.DrawRectangle (ResPool.GetPen (ThemeEngine.Current.ColorControlDark), area);
+				g.DrawLine (ResPool.GetPen (ThemeEngine.Current.ColorControlDark), comboBox.ButtonArea.X - 1, comboBox.ButtonArea.Top, comboBox.ButtonArea.X - 1, comboBox.ButtonArea.Bottom);
 			}
 			bool is_flat = style == FlatStyle.Flat || style == FlatStyle.Popup;
 			if (!is_flat && clippingArea.IntersectsWith (comboBox.TextArea))
@@ -2421,7 +2421,7 @@ namespace System.Windows.Forms
 				return;
 
 			// fill the background
-			dc.FillRectangle (SystemBrushes.Window, dtp.date_area_rect);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorWindow), dtp.date_area_rect);
 
 			// Update date_area_rect if we are drawing the checkbox
 			Rectangle date_area_rect = dtp.date_area_rect;
@@ -2471,7 +2471,7 @@ namespace System.Windows.Forms
 				
 				// draw the text part
 				Brush text_brush = ResPool.GetSolidBrush (dtp.ShowCheckBox && dtp.Checked == false ?
-						SystemColors.GrayText : dtp.ForeColor); // Use GrayText if Checked is false
+						ThemeEngine.Current.ColorGrayText : dtp.ForeColor); // Use GrayText if Checked is false
 				RectangleF clip_rectangleF = clip_rectangle;
 
 				for (int i = 0; i < dtp.part_data.Length; i++)
@@ -2503,8 +2503,8 @@ namespace System.Windows.Forms
 						text_format.FormatFlags |= StringFormatFlags.NoClip;
 					
 					if (fd.Selected) {
-						dc.FillRectangle (SystemBrushes.Highlight, text_rect);
-						dc.DrawString (text, dtp.Font, SystemBrushes.HighlightText, text_rect, text_format);
+						dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), text_rect);
+						dc.DrawString (text, dtp.Font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText), text_rect, text_format);
 					
 					} else {
 						dc.DrawString (text, dtp.Font, text_brush, text_rect, text_format);
@@ -2732,7 +2732,7 @@ namespace System.Windows.Forms
 				rect.Width = control.v_scroll.Width;
 				rect.Y = control.v_scroll.Location.Y + control.v_scroll.Height;
 				rect.Height = control.h_scroll.Height;
-				dc.FillRectangle (SystemBrushes.Control, rect);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), rect);
 			}
 
 			Rectangle box_select_rect = control.item_control.BoxSelectRectangle;
@@ -2747,7 +2747,7 @@ namespace System.Windows.Forms
 				
 			// border is drawn directly in the Paint method
 			if (details && control.HeaderStyle != ColumnHeaderStyle.None) {				
-				dc.FillRectangle (SystemBrushes.Control,
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl),
 						  0, 0, control.TotalWidth, control.Font.Height + 5);
 				if (control.Columns.Count > 0) {
 					foreach (ColumnHeader col in control.Columns) {
@@ -2797,7 +2797,7 @@ namespace System.Windows.Forms
 							rect.Width -= image_width;
 						}
 
-						dc.DrawString (col.Text, control.Font, SystemBrushes.ControlText, rect, col.Format);
+						dc.DrawString (col.Text, control.Font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), rect, col.Format);
 					}
 					int right = control.GetReorderedColumn (control.Columns.Count - 1).Rect.Right - control.h_marker;
 					if (right < control.Right) {
@@ -2852,7 +2852,7 @@ namespace System.Windows.Forms
 				state |= ListViewItemStates.Selected;
 
 			DrawListViewColumnHeaderEventArgs args = new DrawListViewColumnHeaderEventArgs (dc,
-					bounds, column.Index, column, state, SystemColors.ControlText, ThemeEngine.Current.ColorControl, DefaultFont);
+					bounds, column.Index, column, state, ThemeEngine.Current.ColorControlText, ThemeEngine.Current.ColorControl, DefaultFont);
 			control.OnDrawColumnHeader (args);
 
 			return !args.DrawDefault;
@@ -2905,7 +2905,7 @@ namespace System.Windows.Forms
 					int scale = Math.Max (1, rect_checkrect.Width / 12);
 
 					// set the checkbox background
-					dc.FillRectangle (SystemBrushes.Window,
+					dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorWindow),
 							  rect_checkrect);
 					// define a rectangle inside the border area
 					Rectangle rect = new Rectangle (rect_checkrect.X + 2,
@@ -2997,15 +2997,15 @@ namespace System.Windows.Forms
 			}
 
 			if (item.Selected && control.Focused)
-				dc.FillRectangle (SystemBrushes.Highlight, highlight_rect);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), highlight_rect);
 			else if (item.Selected && !control.HideSelection)
-				dc.FillRectangle (SystemBrushes.Control, highlight_rect);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), highlight_rect);
 			else
 				dc.FillRectangle (ResPool.GetSolidBrush (item.BackColor), text_rect);
 			
 			Brush textBrush =
-				!control.Enabled ? SystemBrushes.ControlLight :
-				(item.Selected && control.Focused) ? SystemBrushes.HighlightText :
+				!control.Enabled ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight) :
+				(item.Selected && control.Focused) ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText) :
 				this.ResPool.GetSolidBrush (item.ForeColor);
 
 			// Tile view renders its Text in a different fashion
@@ -3020,7 +3020,7 @@ namespace System.Windows.Forms
 						continue;
 
 					Brush itemBrush = item.Selected && control.Focused ? 
-						SystemBrushes.HighlightText : GetControlForeBrush (sub_item.ForeColor);
+						ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText) : GetControlForeBrush (sub_item.ForeColor);
 					dc.DrawString (sub_item.Text, sub_item.Font, itemBrush, sub_item.Bounds, format);
 				}
 			} else
@@ -3071,7 +3071,7 @@ namespace System.Windows.Forms
 					ColumnHeader col = control.Columns [index];
 					sub_item_rect.X = col.Rect.X - control.h_marker;
 					sub_item_rect.Width = col.Wd;
-					dc.FillRectangle (control.Focused ? SystemBrushes.Highlight : SystemBrushes.Control, 
+					dc.FillRectangle (control.Focused ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight) : ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), 
 							sub_item_rect);
 				}
 			}
@@ -3114,10 +3114,10 @@ namespace System.Windows.Forms
 			if (item.Selected && (control.Focused || !control.HideSelection) && control.FullRowSelect) {
 				Brush bg, text;
 				if (control.Focused) {
-					bg = SystemBrushes.Highlight;
-					text = SystemBrushes.HighlightText;
+					bg = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight);
+					text = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText);
 				} else {
-					bg = SystemBrushes.Control;
+					bg = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
 					text = sub_item_fore_br;
 							
 				}
@@ -3159,7 +3159,7 @@ namespace System.Windows.Forms
 
 			Font font = new Font (control.Font, control.Font.Style | FontStyle.Bold);
 			Brush brush = new LinearGradientBrush (new Point (header_bounds.Left, 0), new Point (header_bounds.Left + ListViewGroupLineWidth, 0), 
-					SystemColors.Desktop, Color.White);
+					ThemeEngine.Current.ColorDesktop, Color.White);
 			Pen pen = new Pen (brush);
 
 			StringFormat sformat = new StringFormat ();
@@ -3176,7 +3176,7 @@ namespace System.Windows.Forms
 			}
 
 			sformat.LineAlignment = StringAlignment.Near;
-			dc.DrawString (group.Header, font, SystemBrushes.Highlight, text_bounds, sformat);
+			dc.DrawString (group.Header, font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), text_bounds, sformat);
 			dc.DrawLine (pen, header_bounds.Left, header_bounds.Top + text_height, header_bounds.Left + ListViewGroupLineWidth, 
 					header_bounds.Top + text_height);
 
@@ -3391,7 +3391,7 @@ namespace System.Windows.Forms
 			string_format_menu_text.HotkeyPrefix = hp;
 
 			rect.Height = menu.Height;
-			dc.FillRectangle (SystemBrushes.Menu, rect);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorMenu), rect);
 			
 			for (int i = 0; i < menu.MenuItems.Count; i++) {
 				MenuItem item = menu.MenuItems [i];
@@ -3471,13 +3471,13 @@ namespace System.Windows.Forms
 			if ((e.State & DrawItemState.Selected) == DrawItemState.Selected && !item.MenuBar) {
 				color_text = ColorHighlightText;
 				color_back = ColorHighlight;
-				brush_text = SystemBrushes.HighlightText;
-				brush_back = SystemBrushes.Highlight;
+				brush_text = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText);
+				brush_back = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight);
 			} else {
 				color_text = ColorMenuText;
 				color_back = ColorMenu;
 				brush_text = ResPool.GetSolidBrush (ColorMenuText);
-				brush_back = SystemBrushes.Menu;
+				brush_back = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorMenu);
 			}
 
 			/* Draw background */
@@ -3564,7 +3564,7 @@ namespace System.Windows.Forms
 		public override void DrawPopupMenu (Graphics dc, Menu menu, Rectangle cliparea, Rectangle rect)
 		{
 			// Fill rectangle area
-			dc.FillRectangle (SystemBrushes.Menu, cliparea);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorMenu), cliparea);
 			
 			// Draw menu borders
 			CPDrawBorder3D (dc, rect, Border3DStyle.Raised, all_sides);
@@ -3667,7 +3667,7 @@ namespace System.Windows.Forms
 			if (mc.owner == null)
 				border_brush = GetControlBackBrush (mc.BackColor);
 			else
-				border_brush = SystemBrushes.ControlDarkDark;
+				border_brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark);
 				
 			// finally paint the borders of the calendars as required
 			for (int i = 0; i <= mc.CalendarDimensions.Width; i++) {
@@ -3752,7 +3752,7 @@ namespace System.Windows.Forms
 					ButtonState upState, downState;
 					
 					mc.GetYearNameRectangles (title_rect, row * mc.CalendarDimensions.Width + col, out year_rect, out upRect, out downRect);
-					dc.FillRectangle (ResPool.GetSolidBrush (SystemColors.Control), year_rect);
+					dc.FillRectangle (ResPool.GetSolidBrush (ThemeEngine.Current.ColorControl), year_rect);
 					dc.DrawString (this_month.ToString ("yyyy"), mc.bold_font, ResPool.GetSolidBrush (Color.Black), year_rect, mc.centered_format);
 					
 					upState = mc.IsYearGoingUp ? ButtonState.Pushed : ButtonState.Normal;
@@ -3979,7 +3979,7 @@ namespace System.Windows.Forms
 			}
 
 			// fill the background
-			dc.FillRectangle (SystemBrushes.Control, button_rect);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), button_rect);
 			// draw the border
 			if (is_clicked) {
 				dc.DrawRectangle (SystemPens.ControlDark, button_rect);
@@ -3988,7 +3988,7 @@ namespace System.Windows.Forms
 				CPDrawBorder3D (dc, button_rect, Border3DStyle.Raised, Border3DSide.Left | Border3DSide.Right | Border3DSide.Top | Border3DSide.Bottom);
 			}
 			// draw the arrow
-			dc.FillPolygon (SystemBrushes.ControlText, arrow_path);			
+			dc.FillPolygon (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), arrow_path);			
 			//dc.FillPolygon (SystemBrushes.ControlText, arrow_path, FillMode.Winding);
 		}
 		
@@ -4555,14 +4555,14 @@ namespace System.Windows.Forms
 					
 					// fill in the area depending on whether or not the mouse is hovering
 					if ((radio_button.is_entered || radio_button.Capture) && !radio_button.is_pressed) {
-						graphics.FillPie (SystemBrushes.ControlLight, rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
+						graphics.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight), rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
 					} else {
-						graphics.FillPie (SystemBrushes.ControlLightLight, rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
+						graphics.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
 					}
 				} else {
 					// must be a popup radio button
 					// fill the control
-					graphics.FillPie (SystemBrushes.ControlLightLight, rectangle, 0, 359);
+					graphics.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), rectangle, 0, 359);
 
 					if (radio_button.is_entered || radio_button.Capture) {
 						// draw the popup 3d button knob
@@ -4579,7 +4579,7 @@ namespace System.Windows.Forms
 			} else {
 				// disabled
 				// fill control background color regardless of actual backcolor
-				graphics.FillPie (SystemBrushes.Control, rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
+				graphics.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), rectangle.X + 1, rectangle.Y + 1, rectangle.Width - 2, rectangle.Height - 2, 0, 359);
 				// draw the ark as control dark
 				graphics.DrawArc (SystemPens.ControlDark, rectangle, 0, 359);
 			}
@@ -4589,11 +4589,11 @@ namespace System.Windows.Forms
 				lineWidth = Math.Max (1, Math.Min(rectangle.Width, rectangle.Height)/3);
 				
 				Pen dot_pen = SystemPens.ControlDarkDark;
-				Brush dot_brush = SystemBrushes.ControlDarkDark;
+				Brush dot_brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark);
 
 				if (!radio_button.Enabled || ((radio_button.FlatStyle == FlatStyle.Popup) && radio_button.is_pressed)) {
 					dot_pen = SystemPens.ControlDark;
-					dot_brush = SystemBrushes.ControlDark;
+					dot_brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark);
 				} 
 				
 				if (rectangle.Height >  13) {
@@ -4892,7 +4892,7 @@ namespace System.Windows.Forms
 		{
 			bool is_color_control = sb.BackColor.ToArgb () == ColorControl.ToArgb ();
 
-			Brush brush = is_color_control ? SystemBrushes.Control : ResPool.GetSolidBrush (sb.BackColor);
+			Brush brush = is_color_control ? ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl) : ResPool.GetSolidBrush (sb.BackColor);
 			dc.FillRectangle (brush, clip);
 		}
 
@@ -5125,7 +5125,7 @@ namespace System.Windows.Forms
 				format.Alignment = StringAlignment.Near;
 
 			if (control.Appearance != ToolBarAppearance.Flat || control.Parent == null) {
-				dc.FillRectangle (SystemBrushes.Control, clip_rectangle);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), clip_rectangle);
 			}
 
 			if (control.Divider && clip_rectangle.Y < 2) {
@@ -5222,9 +5222,9 @@ namespace System.Windows.Forms
 			if (item.Button.Pushed)
 				brush = (Brush) ResPool.GetHatchBrush (HatchStyle.Percent50, ColorScrollBar, ColorControlLightLight);
 			else if (item.Button.PartialPush)
-				brush = SystemBrushes.ControlLight;
+				brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight);
 			else
-				brush = SystemBrushes.Control;
+				brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
 			 
 			dc.FillRectangle (brush, area);
 		}
@@ -5266,7 +5266,7 @@ namespace System.Windows.Forms
 			vertices [1].Y = ddCenter.Y;
 			vertices [2].X = ddCenter.X + 0.5f; // 0.5 is added for adjustment
 			vertices [2].Y = ddCenter.Y + ToolBarDropDownArrowHeight;
-			dc.FillPolygon (SystemBrushes.ControlText, vertices);
+			dc.FillPolygon (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), vertices);
 		}
 
 		protected virtual void DrawToolBarButtonContents (Graphics dc, ToolBar control, ToolBarItem item, StringFormat format)
@@ -5297,7 +5297,7 @@ namespace System.Windows.Forms
 			}
 			
 			if (item.Button.Enabled)
-				dc.DrawString (item.Button.Text, control.Font, SystemBrushes.ControlText, text_rect, format);
+				dc.DrawString (item.Button.Text, control.Font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), text_rect, format);
 			else
 				CPDrawStringDisabled (dc, item.Button.Text, control.Font, control.BackColor, text_rect, format);
 		}
@@ -5821,13 +5821,13 @@ namespace System.Windows.Forms
 		#region Track
 		protected virtual void TrackBarDrawVerticalTrack (Graphics dc, Rectangle thumb_area, Point channel_startpoint, Rectangle clippingArea)
 		{
-			dc.FillRectangle (SystemBrushes.ControlDark, channel_startpoint.X, channel_startpoint.Y,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark), channel_startpoint.X, channel_startpoint.Y,
 				1, thumb_area.Height);
 
-			dc.FillRectangle (SystemBrushes.ControlDarkDark, channel_startpoint.X + 1, channel_startpoint.Y,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), channel_startpoint.X + 1, channel_startpoint.Y,
 				1, thumb_area.Height);
 
-			dc.FillRectangle (SystemBrushes.ControlLight, channel_startpoint.X + 3, channel_startpoint.Y,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight), channel_startpoint.X + 3, channel_startpoint.Y,
 				1, thumb_area.Height);
 		}
 		#endregion
@@ -5992,13 +5992,13 @@ namespace System.Windows.Forms
 		#region Track
 		protected virtual void TrackBarDrawHorizontalTrack (Graphics dc, Rectangle thumb_area, Point channel_startpoint, Rectangle clippingArea)
 		{
-			dc.FillRectangle (SystemBrushes.ControlDark, channel_startpoint.X, channel_startpoint.Y,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark), channel_startpoint.X, channel_startpoint.Y,
 				thumb_area.Width, 1);
 
-			dc.FillRectangle (SystemBrushes.ControlDarkDark, channel_startpoint.X, channel_startpoint.Y + 1,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark), channel_startpoint.X, channel_startpoint.Y + 1,
 				thumb_area.Width, 1);
 
-			dc.FillRectangle (SystemBrushes.ControlLight, channel_startpoint.X, channel_startpoint.Y + 3,
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight), channel_startpoint.X, channel_startpoint.Y + 3,
 				thumb_area.Width, 1);
 		}
 		#endregion
@@ -6098,13 +6098,13 @@ namespace System.Windows.Forms
 			} else if (tb.thumb_pressed == true) {
 				br_thumb = (Brush) ResPool.GetHatchBrush (HatchStyle.Percent50, ColorControlLight, ColorControl);
 			} else {
-				br_thumb = SystemBrushes.Control;
+				br_thumb = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
 			}
 
 			
 			/* Control Background */
 			if (tb.BackColor.ToArgb () == DefaultControlBackColor.ToArgb ()) {
-				dc.FillRectangle (SystemBrushes.Control, clip_rectangle);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), clip_rectangle);
 			} else {
 				dc.FillRectangle (ResPool.GetSolidBrush (tb.BackColor), clip_rectangle);
 			}
@@ -6339,7 +6339,7 @@ namespace System.Windows.Forms
 			
 			if (!wm.IsMinimized)
 				// Draw the line just beneath the title bar
-				dc.DrawLine (ResPool.GetPen (SystemColors.Control), bdwidth,
+				dc.DrawLine (ResPool.GetPen (ThemeEngine.Current.ColorControl), bdwidth,
 						tbheight + bdwidth - 1, form.Width - bdwidth - 1,
 						tbheight + bdwidth - 1);
 			return tb;
@@ -6415,7 +6415,7 @@ namespace System.Windows.Forms
 
 		protected virtual void ManagedWindowDrawTitleButton (Graphics dc, TitleButton button, Rectangle clip, Form form)
 		{
-			dc.FillRectangle (SystemBrushes.Control, button.Rectangle);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), button.Rectangle);
 
 			ControlPaint.DrawCaptionButton (dc, button.Rectangle,
 					button.Caption, button.State);
@@ -6442,7 +6442,7 @@ namespace System.Windows.Forms
 
 		public override void ManagedWindowDrawMenuButton (Graphics dc, TitleButton button, Rectangle clip, InternalWindowManager wm)
 		{
-			dc.FillRectangle (SystemBrushes.Control, button.Rectangle);
+			dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), button.Rectangle);
 			ControlPaint.DrawCaptionButton (dc, button.Rectangle,
 					button.Caption, button.State);
 		}
@@ -6706,7 +6706,7 @@ namespace System.Windows.Forms
 				cb_rect.Width -= 2;
 				cb_rect.Height -= 2;
 				
-				dc.FillRectangle (SystemBrushes.Control, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
 				dc.DrawRectangle (SystemPens.ControlDark, cb_rect.X, cb_rect.Y, cb_rect.Width - 1, cb_rect.Height - 1);
 				
 				check_pen = SystemPens.ControlDark;
@@ -7750,7 +7750,7 @@ namespace System.Windows.Forms
 		/* Generic scroll button */
 		public void DrawScrollButtonPrimitive (Graphics dc, Rectangle area, ButtonState state) {
 			if ((state & ButtonState.Pushed) == ButtonState.Pushed) {
-				dc.FillRectangle (SystemBrushes.Control, area.X + 1,
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), area.X + 1,
 					area.Y + 1, area.Width - 2 , area.Height - 2);
 
 				dc.DrawRectangle (SystemPens.ControlDark, area.X,
@@ -7759,10 +7759,10 @@ namespace System.Windows.Forms
 				return;
 			}			
 	
-			Brush sb_control = SystemBrushes.Control;
-			Brush sb_lightlight = SystemBrushes.ControlLightLight;
-			Brush sb_dark = SystemBrushes.ControlDark;
-			Brush sb_darkdark = SystemBrushes.ControlDarkDark;
+			Brush sb_control = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
+			Brush sb_lightlight = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight);
+			Brush sb_dark = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark);
+			Brush sb_darkdark = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDarkDark);
 			
 			dc.FillRectangle (sb_control, area.X, area.Y, area.Width, 1);
 			dc.FillRectangle (sb_control, area.X, area.Y, 1, area.Height);

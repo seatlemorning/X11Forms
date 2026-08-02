@@ -94,7 +94,7 @@ namespace System.Windows.Forms.PropertyGridInternal {
 
 			grid_textbox.Visible = false;
 			grid_textbox.Font = this.Font;
-			grid_textbox.BackColor = SystemColors.Window;
+			grid_textbox.BackColor = ThemeEngine.Current.ColorWindow;
 			grid_textbox.Validate += new CancelEventHandler (grid_textbox_Validate);
 			grid_textbox.ToggleValue+=new EventHandler (grid_textbox_ToggleValue);
 			grid_textbox.KeyDown+=new KeyEventHandler (grid_textbox_KeyDown);
@@ -613,12 +613,12 @@ namespace System.Windows.Forms.PropertyGridInternal {
 						highlight.X -= V_INDENT;
 						highlight.Width += V_INDENT;
 					}
-					pevent.Graphics.FillRectangle (SystemBrushes.Highlight, highlight);
+					pevent.Graphics.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), highlight);
 					// Label
-					brush = SystemBrushes.HighlightText;
+					brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText);
 				}
 				else {
-					brush = grid_item.IsReadOnly ? inactive_text_brush : SystemBrushes.ControlText;
+					brush = grid_item.IsReadOnly ? inactive_text_brush : ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText);
 				}
 			}
 			pevent.Graphics.DrawString (grid_item.Label, font, brush,
@@ -645,7 +645,7 @@ namespace System.Windows.Forms.PropertyGridInternal {
 			Font font = this.Font;
 			if (grid_item.IsResetable || !grid_item.HasDefaultValue)
 				font = bold_font;
-			Brush brush = grid_item.IsReadOnly ? inactive_text_brush : SystemBrushes.ControlText;
+			Brush brush = grid_item.IsReadOnly ? inactive_text_brush : ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText);
 			string valueText = String.Empty;
 			if (!grid_item.IsMerged || grid_item.IsMerged && grid_item.HasMergedValue) {
 				if (grid_item.IsPassword)
@@ -856,12 +856,12 @@ namespace System.Windows.Forms.PropertyGridInternal {
 					grid_textbox.DropDownButtonVisible = false;
 					grid_textbox.DialogButtonVisible = false;
 					grid_textbox.ReadOnly = true;
-					grid_textbox.ForeColor = SystemColors.GrayText;
+					grid_textbox.ForeColor = ThemeEngine.Current.ColorGrayText;
 				} else {
 					grid_textbox.DropDownButtonVisible = entry.AcceptedValues != null || 
 						entry.EditorStyle == UITypeEditorEditStyle.DropDown;
 					grid_textbox.DialogButtonVisible = entry.EditorStyle == UITypeEditorEditStyle.Modal;
-					grid_textbox.ForeColor = SystemColors.ControlText;
+					grid_textbox.ForeColor = ThemeEngine.Current.ColorControlText;
 					grid_textbox.ReadOnly = !entry.IsEditable;
 				}
 				UpdateGridTextBoxBounds (entry);

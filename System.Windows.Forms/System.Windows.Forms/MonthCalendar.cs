@@ -138,7 +138,7 @@ namespace System.Windows.Forms {
 			title_back_color = ThemeEngine.Current.ColorActiveCaption;
 			title_fore_color = ThemeEngine.Current.ColorActiveCaptionText;
 			today_date_set = false;
-			trailing_fore_color = SystemColors.GrayText;
+			trailing_fore_color = ThemeEngine.Current.ColorGrayText;
 			bold_font = new Font (Font, Font.Style | FontStyle.Bold);
 			centered_format = new StringFormat (StringFormat.GenericTypographic);
 			centered_format.FormatFlags = centered_format.FormatFlags | StringFormatFlags.MeasureTrailingSpaces | StringFormatFlags.NoWrap | StringFormatFlags.FitBlackBox;
@@ -147,7 +147,7 @@ namespace System.Windows.Forms {
 			centered_format.Alignment = StringAlignment.Center;
 			
 			// Set default values
-			ForeColor = SystemColors.WindowText;
+			ForeColor = ThemeEngine.Current.ColorWindowText;
 			BackColor = ThemeEngine.Current.ColorWindow;
 		
 			// intiailise internal variables used

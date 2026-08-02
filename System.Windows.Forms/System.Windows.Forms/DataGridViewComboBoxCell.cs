@@ -388,7 +388,7 @@ namespace System.Windows.Forms {
 
 			// The background of the dropdown button should be gray, not
 			// the background color of the cell.
-			graphics.FillRectangle (SystemBrushes.Control, button_area);
+			graphics.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), button_area);
 			ThemeEngine.Current.CPDrawComboButton (graphics, button_area, ButtonState.Normal);
 
 			if (formattedValue != null)

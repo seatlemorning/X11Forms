@@ -98,8 +98,8 @@ namespace System.Windows.Forms
 			selected_objects = new object[0];
 			property_tabs = new PropertyTabCollection(this);
 
-			line_color = SystemColors.ScrollBar;
-			category_fore_color = SystemColors.ControlText;
+			line_color = ThemeEngine.Current.ColorScrollBar;
+			category_fore_color = ThemeEngine.Current.ColorControlText;
 			commands_visible = false;
 			commands_visible_if_available = false;
 			property_sort = PropertySort.CategorizedAlphabetical;
@@ -112,7 +112,7 @@ namespace System.Windows.Forms
 			help_panel.Dock = DockStyle.Bottom;
 			//help_panel.DockPadding.All = 3;
 			help_panel.Height = 50;
-			help_panel.BackColor = SystemColors.Control;
+			help_panel.BackColor = ThemeEngine.Current.ColorControl;
 
 
 			help_title_label = new Label();

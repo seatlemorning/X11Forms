@@ -77,9 +77,9 @@ namespace System.Windows.Forms
 
 				if (radioButtonText != String.Empty)
 					if (state == RadioButtonState.CheckedDisabled || state == RadioButtonState.UncheckedDisabled)
-						TextRenderer.DrawText (g, radioButtonText, font, textBounds, SystemColors.GrayText, flags);
+						TextRenderer.DrawText (g, radioButtonText, font, textBounds, ThemeEngine.Current.ColorGrayText, flags);
 					else
-						TextRenderer.DrawText (g, radioButtonText, font, textBounds, SystemColors.ControlText, flags);
+						TextRenderer.DrawText (g, radioButtonText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 			}
 			else {
 				switch (state) {
@@ -110,7 +110,7 @@ namespace System.Windows.Forms
 					ControlPaint.DrawFocusRectangle (g, textBounds);
 
 				if (radioButtonText != String.Empty)
-					TextRenderer.DrawText (g, radioButtonText, font, textBounds, SystemColors.ControlText, flags);
+					TextRenderer.DrawText (g, radioButtonText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 			}
 
 		}

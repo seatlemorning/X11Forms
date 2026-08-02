@@ -121,7 +121,7 @@ namespace System.Windows.Forms {
 			if (backColor == Color.Empty) {
 				backcolor_set = false;
 				if (!ReadOnly) {
-					backColor = SystemColors.Window;
+					backColor = ThemeEngine.Current.ColorWindow;
 				}
 			}
 			return backColor;

@@ -167,16 +167,16 @@ namespace System.Windows.Forms {
 			autoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
 			autoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			backColor = Control.DefaultBackColor;
-			backgroundColor = SystemColors.AppWorkspace;
+			backgroundColor = ThemeEngine.Current.ColorAppWorkspace;
 			borderStyle = BorderStyle.FixedSingle;
 			cellBorderStyle = DataGridViewCellBorderStyle.Single;
 			clipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithAutoHeaderText;
 			columnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
 			columnHeadersDefaultCellStyle = new DataGridViewCellStyle();
-			columnHeadersDefaultCellStyle.BackColor = SystemColors.Control;
-			columnHeadersDefaultCellStyle.ForeColor = SystemColors.ControlText;
-			columnHeadersDefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
-			columnHeadersDefaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
+			columnHeadersDefaultCellStyle.BackColor = ThemeEngine.Current.ColorControl;
+			columnHeadersDefaultCellStyle.ForeColor = ThemeEngine.Current.ColorControlText;
+			columnHeadersDefaultCellStyle.SelectionBackColor = ThemeEngine.Current.ColorHighlight;
+			columnHeadersDefaultCellStyle.SelectionForeColor = ThemeEngine.Current.ColorHighlightText;
 			columnHeadersDefaultCellStyle.Font = this.Font;
 			columnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			columnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
@@ -188,10 +188,10 @@ namespace System.Windows.Forms {
 			currentCellAddress = new Point (-1, -1);
 			dataMember = String.Empty;
 			defaultCellStyle = new DataGridViewCellStyle();
-			defaultCellStyle.BackColor = SystemColors.Window;
-			defaultCellStyle.ForeColor = SystemColors.WindowText;
-			defaultCellStyle.SelectionBackColor = SystemColors.Highlight;
-			defaultCellStyle.SelectionForeColor = SystemColors.HighlightText;
+			defaultCellStyle.BackColor = ThemeEngine.Current.ColorWindow;
+			defaultCellStyle.ForeColor = ThemeEngine.Current.ColorWindowText;
+			defaultCellStyle.SelectionBackColor = ThemeEngine.Current.ColorHighlight;
+			defaultCellStyle.SelectionForeColor = ThemeEngine.Current.ColorHighlightText;
 			defaultCellStyle.Font = this.Font;
 			defaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
 			defaultCellStyle.WrapMode = DataGridViewTriState.False;
@@ -4851,7 +4851,7 @@ namespace System.Windows.Forms {
 			
 			// Paint the bottom right square if both scrollbars are displayed
 			if (horizontalScrollBar.Visible && verticalScrollBar.Visible)
-				g.FillRectangle (SystemBrushes.Control, new Rectangle (horizontalScrollBar.Right, verticalScrollBar.Bottom, verticalScrollBar.Width, horizontalScrollBar.Height));
+				g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), new Rectangle (horizontalScrollBar.Right, verticalScrollBar.Bottom, verticalScrollBar.Width, horizontalScrollBar.Height));
 
 			// Paint the border
 			bounds = ClientRectangle;

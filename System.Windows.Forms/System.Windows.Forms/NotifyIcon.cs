@@ -186,7 +186,7 @@ namespace System.Windows.Forms {
 				if (owner.icon != null) {
 					// At least in Gnome, the background of the panel is the same as the Menu, so we go for it
 					// instead of (most of the time) plain white.
-					e.Graphics.FillRectangle(ThemeEngine.Current.ResPool.GetSolidBrush(SystemColors.Menu), rect);
+					e.Graphics.FillRectangle(ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorMenu), rect);
 					e.Graphics.DrawImage(owner.icon_bitmap,
 							     rect,
 							     new Rectangle (0, 0, owner.icon_bitmap.Width, owner.icon_bitmap.Height),

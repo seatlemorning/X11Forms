@@ -60,7 +60,7 @@ namespace System.Windows.Forms
 
 		public void DrawBorder ()
 		{
-			ControlPaint.DrawBorder (graphics, bounds, SystemColors.WindowFrame, ButtonBorderStyle.Solid);
+			ControlPaint.DrawBorder (graphics, bounds, ThemeEngine.Current.ColorWindowFrame, ButtonBorderStyle.Solid);
 		}
 
 		public void DrawText ()

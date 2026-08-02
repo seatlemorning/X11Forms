@@ -103,7 +103,7 @@ namespace System.Windows.Forms.Theming.Default
 
 			Rectangle rect = new Rectangle (x_pos, y_pos, check_box_visible_size, check_box_visible_size);
 
-			g.FillRectangle (SystemBrushes.ControlLightLight, rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
+			g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), rect.X + 2, rect.Y + 2, rect.Width - 3, rect.Height - 3);
 
 			Pen pen = SystemPens.ControlDark;
 			g.DrawLine (pen, rect.X, rect.Y, rect.X, rect.Bottom - 2);
@@ -128,7 +128,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDark);
 		}
 		
 		public virtual void DrawHotCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -172,7 +172,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawDisabledCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -180,7 +180,7 @@ namespace System.Windows.Forms.Theming.Default
 			DrawPressedCheckBox (g, bounds, backColor, foreColor, CheckState.Unchecked);
 
 			if (state == CheckState.Checked || state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDark);
 		}
 		#endregion
 
@@ -203,7 +203,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawFlatHotCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -224,7 +224,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawFlatPressedCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -243,7 +243,7 @@ namespace System.Windows.Forms.Theming.Default
 			bounds.Offset (-1, 0);
 
 			if (state == CheckState.Checked || state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 		#endregion
 
@@ -272,7 +272,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawPopupPressedCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -294,7 +294,7 @@ namespace System.Windows.Forms.Theming.Default
 			if (state == CheckState.Checked)
 				DrawCheck (g, bounds, Color.Black);
 			else if (state == CheckState.Indeterminate)
-				DrawCheck (g, bounds, SystemColors.ControlDarkDark);
+				DrawCheck (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawPopupDisabledCheckBox (Graphics g, Rectangle bounds, Color backColor, Color foreColor, CheckState state)
@@ -350,7 +350,7 @@ namespace System.Windows.Forms.Theming.Default
 		}
 
 		private Color ColorControl {
-			get { return SystemColors.Control; }
+			get { return ThemeEngine.Current.ColorControl; }
 		}
 		#endregion
 	}

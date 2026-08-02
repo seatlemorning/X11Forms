@@ -108,8 +108,8 @@ namespace System.Windows.Forms
 
 				if (groupBoxText != String.Empty) {
 					if (textColor == Color.Empty)
-						textColor = state == GroupBoxState.Normal ? SystemColors.ControlText :
-							SystemColors.GrayText;
+						textColor = state == GroupBoxState.Normal ? ThemeEngine.Current.ColorControlText :
+							ThemeEngine.Current.ColorGrayText;
 					TextRenderer.DrawText (g, groupBoxText, font, new Point (bounds.Left + 8, bounds.Top), textColor, flags);
 				}
 			}

@@ -1146,7 +1146,7 @@
       <Docs>
         <remarks>
           <attribution license="cc4" from="Microsoft" modified="false" />
-          <para>Calling this method will reset the <see cref="P:System.Windows.Forms.Control.ForeColor" /> to <see cref="P:System.Drawing.SystemColors.Highlight" /> unless the method is overridden in a derived class. The <see cref="M:System.Windows.Forms.ProgressBar.ResetForeColor" /> method is useful when you create a designer for the control, or you are creating your own control that incorporates the <see cref="T:System.Windows.Forms.ProgressBar" />.</para>
+          <para>Calling this method will reset the <see cref="P:System.Windows.Forms.Control.ForeColor" /> to <see cref="P:System.Drawing.ThemeEngine.Current.ColorHighlight" /> unless the method is overridden in a derived class. The <see cref="M:System.Windows.Forms.ProgressBar.ResetForeColor" /> method is useful when you create a designer for the control, or you are creating your own control that incorporates the <see cref="T:System.Windows.Forms.ProgressBar" />.</para>
         </remarks>
         <summary>
           <attribution license="cc4" from="Microsoft" modified="false" />

@@ -65,7 +65,7 @@ namespace System.Windows.Forms {
 			rows = 1;
 			startPage = 0;
 
-			this.BackColor = SystemColors.AppWorkspace;
+			this.BackColor = ThemeEngine.Current.ColorAppWorkspace;
 
 			controller = new PreviewPrintController ();
 

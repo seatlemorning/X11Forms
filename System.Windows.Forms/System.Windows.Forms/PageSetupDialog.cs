@@ -886,11 +886,11 @@ namespace System.Windows.Forms
 			{
 				sb = new StringBuilder ();
 				for (int i = 0; i < 4; i++) {
-					sb.Append ("blabla piu piublapiu haha lai dlais dhlçai shd ");
-					sb.Append ("çoasd çlaj sdç\r\n lajsd lçaisdj lçillaisd lahs dli");
+					sb.Append ("blabla piu piublapiu haha lai dlais dhlï¿½ai shd ");
+					sb.Append ("ï¿½oasd ï¿½laj sdï¿½\r\n lajsd lï¿½aisdj lï¿½illaisd lahs dli");
 					sb.Append ("laksjd liasjdliasdj blabla piu piublapiu haha ");
-					sb.Append ("lai dlais dhlçai shd çoasd çlaj sdç lajsd lçaisdj");
-					sb.Append (" lçillaisd lahs dli laksjd liasjdliasdj\r\n\r\n");
+					sb.Append ("lai dlais dhlï¿½ai shd ï¿½oasd ï¿½laj sdï¿½ lajsd lï¿½aisdj");
+					sb.Append (" lï¿½illaisd lahs dli laksjd liasjdliasdj\r\n\r\n");
 				}
 				
 				font = new Font (FontFamily.GenericSansSerif, 4);
@@ -955,7 +955,7 @@ namespace System.Windows.Forms
 					bottom = a;
 				}
 				
-				g.FillRectangle (SystemBrushes.ControlDark, 4, 4, w + 4, h + 4);
+				g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlDark), 4, 4, w + 4, h + 4);
 				g.FillRectangle (Brushes.White, 0, 0, w, h);
 
 				RectangleF outerrect = new RectangleF (0, 0, w, h);
@@ -964,7 +964,7 @@ namespace System.Windows.Forms
 														h - top - bottom);
 
 				ControlPaint.DrawBorder (g, outerrect, Color.Black, ButtonBorderStyle.Solid);
-				ControlPaint.DrawBorder (g, innerrect, SystemColors.ControlDark, ButtonBorderStyle.Dashed);
+				ControlPaint.DrawBorder (g, innerrect, ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Dashed);
 
 				g.DrawString (sb.ToString (), font, Brushes.Black,
 								new RectangleF (innerrect.X + 2,

@@ -12,13 +12,13 @@ namespace System.Windows.Forms
         // ===== COLOR PALETTE =====
         // Accent - Emerald (Green)
         private static readonly Color PrimaryColor =
-            Color.FromArgb(35, 150, 120);
+            Color.FromArgb(15, 0, 210);
 
         private static readonly Color PrimaryHover =
-            Color.FromArgb(45, 170, 135);
+            Color.FromArgb(15, 100, 210);
 
         private static readonly Color PrimaryPressed =
-            Color.FromArgb(25, 120, 95);
+            Color.FromArgb(70, 100, 210);
 
         // Background
         private static readonly Color BackgroundColor =
@@ -56,7 +56,7 @@ namespace System.Windows.Forms
 
         // Selection (Highlight) - Green
         private static readonly Color HighlightColor =
-            Color.FromArgb(35, 150, 120);
+            Color.FromArgb(15, 100, 210);
 
         private static readonly Color HighlightTextColor =
             Color.White;
@@ -230,6 +230,18 @@ namespace System.Windows.Forms
             set { }
         }
 
+        public override Color ColorButtonHighlight
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
+        public override Color ColorButtonShadow
+        {
+            get { return ControlBackground; }
+            set { }
+        }
+
         public override Color ColorInfoText
         {
             get { return ToolTipTextColor; }
@@ -284,25 +296,27 @@ namespace System.Windows.Forms
             base.ColorWindow = ControlBackground;
             base.ColorWindowText = TextColor;
             base.ColorWindowFrame = BorderColor;
-            
+
             // Highlight - GREEN selection color
             base.ColorHighlight = HighlightColor;
             base.ColorHighlightText = HighlightTextColor;
-            
+
             base.ColorMenu = ControlBackground;
             base.ColorMenuText = TextColor;
             base.ColorScrollBar = BackgroundColor;
             base.ColorGrayText = TextDisabled;
             base.ColorButtonFace = ControlBackground;
+            base.ColorButtonHighlight = HighlightColor;
+            base.ColorButtonShadow = BorderColor;
             base.ColorActiveCaption = PrimaryColor;
             base.ColorActiveCaptionText = Color.White;
             base.ColorInactiveCaption = Color.FromArgb(238, 238, 238);
             base.ColorInactiveCaptionText = TextDisabled;
-            
+
             // ToolTip - White background
             base.ColorInfo = ToolTipBackColor;
             base.ColorInfoText = ToolTipTextColor;
-            
+
             base.ColorHotTrack = PrimaryHover;
             base.ColorAppWorkspace = BackgroundColor;
             base.ColorActiveBorder = PrimaryColor;
@@ -493,12 +507,24 @@ namespace System.Windows.Forms
         {
             if (button is Button b)
             {
-                return b.DialogResult == DialogResult.OK ||
-                       b.DialogResult == DialogResult.Yes ||
-                       string.Equals(b.Text, "OK", StringComparison.OrdinalIgnoreCase) ||
-                       string.Equals(b.Text, "Apply", StringComparison.OrdinalIgnoreCase) ||
-                       string.Equals(b.Text, "Save", StringComparison.OrdinalIgnoreCase);
+                Form form = b.FindForm();
+                if (form != null && form.AcceptButton == b)
+                    return true;
+
+                if (b.DialogResult == DialogResult.OK ||
+                    b.DialogResult == DialogResult.Yes)
+                    return true;
+
+                string text = b.Text?.ToLowerInvariant() ?? "";
+                return text == "ok" ||
+                       text == "apply" ||
+                       text == "save" ||
+                       text == "сохранить" ||
+                       text == "применить" ||
+                       text == "да" ||
+                       text == "yes";
             }
+
             return false;
         }
 
@@ -506,10 +532,23 @@ namespace System.Windows.Forms
         {
             if (button is Button b)
             {
-                return b.DialogResult == DialogResult.Cancel ||
-                       string.Equals(b.Text, "Cancel", StringComparison.OrdinalIgnoreCase) ||
-                       string.Equals(b.Text, "Close", StringComparison.OrdinalIgnoreCase);
+                Form form = b.FindForm();
+                if (form != null && form.CancelButton == b)
+                    return true;
+
+                if (b.DialogResult == DialogResult.Cancel ||
+                    b.DialogResult == DialogResult.No)
+                    return true;
+
+                string text = b.Text?.ToLowerInvariant() ?? "";
+                return text == "cancel" ||
+                       text == "close" ||
+                       text == "отмена" ||
+                       text == "закрыть" ||
+                       text == "нет" ||
+                       text == "no";
             }
+
             return false;
         }
 

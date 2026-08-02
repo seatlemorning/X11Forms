@@ -366,7 +366,7 @@ namespace System.Windows.Forms {
 		{
 			if (backColor == Color.Empty) {
 				if (!ReadOnly)
-					backColor = SystemColors.Window;
+					backColor = ThemeEngine.Current.ColorWindow;
 
 				backcolor_set = false;
 			}
@@ -1033,15 +1033,15 @@ namespace System.Windows.Forms {
 						continue;
 
 					if (i == highlighted_idx) {
-						g.FillRectangle (SystemBrushes.Highlight, item_bounds);
-						g.DrawString (owner.auto_complete_matches [i], Font, SystemBrushes.HighlightText, item_bounds);
+						g.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlight), item_bounds);
+						g.DrawString (owner.auto_complete_matches [i], Font, ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorHighlightText), item_bounds);
 					} else 
 						g.DrawString (owner.auto_complete_matches [i], Font, brush, item_bounds);
 
 					y += item_height;
 				}
 
-				ThemeEngine.Current.CPDrawSizeGrip (g, SystemColors.Control, resizer_bounds);
+				ThemeEngine.Current.CPDrawSizeGrip (g, ThemeEngine.Current.ColorControl, resizer_bounds);
 			}
 		}
 	}

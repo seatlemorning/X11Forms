@@ -1457,8 +1457,8 @@ namespace System.Windows.Forms
 				if (Focused) {
 					state = DrawItemState.Selected;
 					state |= DrawItemState.Focus;
-					back_color = SystemColors.Highlight;
-					fore_color = SystemColors.HighlightText;
+					back_color = ThemeEngine.Current.ColorHighlight;
+					fore_color = ThemeEngine.Current.ColorHighlightText;
 				}
 				
 				state |= DrawItemState.ComboBoxEdit;
@@ -2571,8 +2571,8 @@ namespace System.Windows.Forms
 
 						if (i == HighlightedIndex) {
 							state |= DrawItemState.Selected;
-							back_color = SystemColors.Highlight;
-							fore_color = SystemColors.HighlightText;
+							back_color = ThemeEngine.Current.ColorHighlight;
+							fore_color = ThemeEngine.Current.ColorHighlightText;
 							
 							if (owner.DropDownStyle == ComboBoxStyle.DropDownList) {
 								state |= DrawItemState.Focus;

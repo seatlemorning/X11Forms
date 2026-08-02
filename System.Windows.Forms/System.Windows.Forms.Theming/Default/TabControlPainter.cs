@@ -321,7 +321,7 @@ namespace System.Windows.Forms.Theming.Default
 
 		protected virtual void DrawBackground (Graphics dc, Rectangle area, TabControl tab)
 		{
-			Brush brush = SystemBrushes.Control;
+			Brush brush = ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl);
 			dc.FillRectangle (brush, area);
 			Rectangle panel_rect = GetTabPanelRect (tab);
 
@@ -429,7 +429,7 @@ namespace System.Windows.Forms.Theming.Default
 					dc.TranslateTransform (bounds.Left, bounds.Bottom);
 					dc.RotateTransform (-90);
 					dc.DrawString (page.Text, tab.Font,
-						SystemBrushes.ControlText, 
+						ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), 
 						tab.Padding.X - 2, // drawstring adds some extra unwanted leading spaces, so trimming
 						tab.Padding.Y,
 						defaultFormatting);
@@ -438,7 +438,7 @@ namespace System.Windows.Forms.Theming.Default
 					dc.TranslateTransform (bounds.Right, bounds.Top);
 					dc.RotateTransform (90);
 					dc.DrawString (page.Text, tab.Font,
-						SystemBrushes.ControlText, 
+						ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText), 
 						tab.Padding.X - 2, // drawstring adds some extra unwanted leading spaces, so trimming
 						tab.Padding.Y,
 						defaultFormatting);
@@ -474,7 +474,7 @@ namespace System.Windows.Forms.Theming.Default
 						str_rect.Width -= tab.ImageList.ImageSize.Width + 2;
 					}
 					dc.DrawString (page.Text, tab.Font,
-						SystemBrushes.ControlText,
+						ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlText),
 						str_rect, 
 						defaultFormatting);
 

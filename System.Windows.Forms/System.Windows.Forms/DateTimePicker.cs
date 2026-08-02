@@ -65,7 +65,7 @@ namespace System.Windows.Forms {
 		protected static readonly Color DefaultMonthBackColor = ThemeEngine.Current.ColorWindow;
 		protected static readonly Color DefaultTitleBackColor = ThemeEngine.Current.ColorActiveCaption;
 		protected static readonly Color DefaultTitleForeColor = ThemeEngine.Current.ColorActiveCaptionText;
-		protected static readonly Color DefaultTrailingForeColor = SystemColors.GrayText;
+		protected static readonly Color DefaultTrailingForeColor = ThemeEngine.Current.ColorGrayText;
 		
 		internal MonthCalendar			month_calendar;
 		bool							is_checked;
@@ -179,8 +179,8 @@ namespace System.Windows.Forms {
 			date_value = DateTime.Now;
 						
 			is_drop_down_visible = false;
-			BackColor = SystemColors.Window;
-			ForeColor = SystemColors.WindowText;
+			BackColor = ThemeEngine.Current.ColorWindow;
+			ForeColor = ThemeEngine.Current.ColorWindowText;
 			
 			month_calendar.DateChanged += new DateRangeEventHandler (MonthCalendarDateChangedHandler);
 			month_calendar.DateSelected += new DateRangeEventHandler (MonthCalendarDateSelectedHandler);

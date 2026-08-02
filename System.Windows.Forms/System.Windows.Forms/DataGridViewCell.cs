@@ -1205,10 +1205,10 @@ namespace System.Windows.Forms {
 						color = DataGridView.GridColor;
 						break;
 					case DataGridViewAdvancedCellBorderStyle.Inset:
-						color = SystemColors.ControlLightLight;
+						color = ThemeEngine.Current.ColorControlLightLight;
 						break;
 					default:
-						color = SystemColors.ControlDark;
+						color = ThemeEngine.Current.ColorControlDark;
 						break;
 				}
 
@@ -1228,10 +1228,10 @@ namespace System.Windows.Forms {
 						color = DataGridView.GridColor;
 						break;
 					case DataGridViewAdvancedCellBorderStyle.Inset:
-						color = SystemColors.ControlLightLight;
+						color = ThemeEngine.Current.ColorControlLightLight;
 						break;
 					default:
-						color = SystemColors.ControlDark;
+						color = ThemeEngine.Current.ColorControlDark;
 						break;
 				}
 

@@ -1658,7 +1658,7 @@ namespace System.Windows.Forms {
 				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush (back_color), r);
 
 			} else if (!hide_selection && node == highlighted_node) {
-				dc.FillRectangle (SystemBrushes.Control, r);
+				dc.FillRectangle (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), r);
 			} else {
 				// If selected_node is not the current highlighted one, use the color of the TreeView
 				Color back_color = node == selected_node ? BackColor : node.BackColor;

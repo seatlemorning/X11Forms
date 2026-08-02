@@ -48,7 +48,7 @@ namespace System.Windows.Forms
 		#region	Local Variables
 		private static readonly Color		def_alternating_backcolor = ThemeEngine.Current.DataGridAlternatingBackColor;
 		private static readonly Color		def_backcolor = ThemeEngine.Current.DataGridBackColor;
-		private static readonly Color		def_forecolor = SystemColors.WindowText;
+		private static readonly Color		def_forecolor = ThemeEngine.Current.ColorWindowText;
 		private static readonly Color		def_gridline_color = ThemeEngine.Current.DataGridGridLineColor;
 		private static readonly Color		def_header_backcolor = ThemeEngine.Current.DataGridHeaderBackColor;
 		private static readonly Font		def_header_font = ThemeEngine.Current.DefaultFont;

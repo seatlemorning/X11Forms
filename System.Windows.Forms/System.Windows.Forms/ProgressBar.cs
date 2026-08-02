@@ -49,7 +49,7 @@ namespace System.Windows.Forms
 		internal ProgressBarStyle style;
 		Timer marquee_timer;
 		bool right_to_left_layout;
-		private static readonly Color defaultForeColor = SystemColors.Highlight;
+		private static readonly Color defaultForeColor = ThemeEngine.Current.ColorHighlight;
 		#endregion	// Local Variables
 
 		#region events

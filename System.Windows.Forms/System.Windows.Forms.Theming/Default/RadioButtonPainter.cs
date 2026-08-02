@@ -135,81 +135,81 @@ namespace System.Windows.Forms.Theming.Default
 		public virtual void DrawFlatNormalRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
 			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLightLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawFlatHotRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
 			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLight), bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawFlatPressedRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
 			g.DrawArc (SystemPens.ControlDarkDark, bounds, 0, 359);
-			g.FillPie (SystemBrushes.ControlLightLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawFlatDisabledRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
-			g.FillPie (SystemBrushes.Control, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDark);
 		}
 		#endregion
 
 		#region Popup
 		public virtual void DrawPopupNormalRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), bounds, 0, 359);
 			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawPopupHotRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), bounds, 0, 359);
 			g.DrawArc (SystemPens.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 
 			g.DrawArc (SystemPens.ControlDark, bounds, 135, 180);
 			g.DrawArc (SystemPens.ControlLightLight, bounds, 315, 180);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawPopupPressedRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
-			g.FillPie (SystemBrushes.ControlLightLight, bounds, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControlLightLight), bounds, 0, 359);
 			g.DrawArc (SystemPens.ControlLight, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 
 			g.DrawArc (SystemPens.ControlDark, bounds, 135, 180);
 			g.DrawArc (SystemPens.ControlLightLight, bounds, 315, 180);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 
 		public virtual void DrawPopupDisabledRadioButton (Graphics g, Rectangle bounds, Color backColor, Color foreColor, bool isChecked)
 		{
-			g.FillPie (SystemBrushes.Control, bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
+			g.FillPie (ThemeEngine.Current.ResPool.GetSolidBrush(ThemeEngine.Current.ColorControl), bounds.X + 1, bounds.Y + 1, bounds.Width - 2, bounds.Height - 2, 0, 359);
 			g.DrawArc (SystemPens.ControlDark, bounds, 0, 359);
 
 			if (isChecked)
-				DrawFlatRadioGlyphDot (g, bounds, SystemColors.ControlDarkDark);
+				DrawFlatRadioGlyphDot (g, bounds, ThemeEngine.Current.ColorControlDarkDark);
 		}
 		#endregion
 

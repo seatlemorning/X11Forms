@@ -92,9 +92,9 @@ namespace System.Windows.Forms
 
 			if (textBoxText != String.Empty)
 				if (state == TextBoxState.Disabled)
-					TextRenderer.DrawText (g, textBoxText, font, textBounds, SystemColors.GrayText, flags);
+					TextRenderer.DrawText (g, textBoxText, font, textBounds, ThemeEngine.Current.ColorGrayText, flags);
 				else
-					TextRenderer.DrawText (g, textBoxText, font, textBounds, SystemColors.ControlText, flags);
+					TextRenderer.DrawText (g, textBoxText, font, textBounds, ThemeEngine.Current.ColorControlText, flags);
 		}
 		#endregion
 

@@ -98,7 +98,7 @@ namespace System.Windows.Forms {
 		public MdiClient()
 		{
 			mdi_child_list = new ArrayList ();
-			BackColor = SystemColors.AppWorkspace;
+			BackColor = ThemeEngine.Current.ColorAppWorkspace;
 			Dock = DockStyle.Fill;
 			SetStyle (ControlStyles.Selectable, false);
 		}

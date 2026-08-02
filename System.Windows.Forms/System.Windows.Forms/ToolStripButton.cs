@@ -195,7 +195,7 @@ namespace System.Windows.Forms
 			base.OnPaint (e);
 
 			if (this.Owner != null) {
-				Color font_color = this.Enabled ? this.ForeColor : SystemColors.GrayText;
+				Color font_color = this.Enabled ? this.ForeColor : ThemeEngine.Current.ColorGrayText;
 				Image draw_image = this.Enabled ? this.Image : ToolStripRenderer.CreateDisabledImage (this.Image);
 
 				this.Owner.Renderer.DrawButtonBackground (new System.Windows.Forms.ToolStripItemRenderEventArgs (e.Graphics, this));

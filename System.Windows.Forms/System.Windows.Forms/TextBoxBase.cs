@@ -504,9 +504,9 @@ namespace System.Windows.Forms
 					read_only = value;
 					if (!backcolor_set) {
 						if (read_only)
-							background_color = SystemColors.Control;
+							background_color = ThemeEngine.Current.ColorControl;
 						else
-							background_color = SystemColors.Window;
+							background_color = ThemeEngine.Current.ColorWindow;
 					}
 					OnReadOnlyChanged(EventArgs.Empty);
 					Invalidate ();

@@ -358,7 +358,7 @@ namespace System.Windows.Forms
 
 		private void DrawSingleBorder (Graphics g, Rectangle rect)
 		{
-			ControlPaint.DrawBorder (g, rect, SystemColors.ControlDark, ButtonBorderStyle.Solid);
+			ControlPaint.DrawBorder (g, rect, ThemeEngine.Current.ColorControlDark, ButtonBorderStyle.Solid);
 
 			int x = DisplayRectangle.X;
 			int y = DisplayRectangle.Y;

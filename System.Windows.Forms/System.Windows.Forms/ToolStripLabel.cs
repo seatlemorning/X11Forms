@@ -190,7 +190,7 @@ namespace System.Windows.Forms
 		protected override void OnPaint (System.Windows.Forms.PaintEventArgs e)
 		{
 			if (this.Owner != null) {
-				Color font_color = this.Enabled ? this.ForeColor : SystemColors.GrayText;
+				Color font_color = this.Enabled ? this.ForeColor : ThemeEngine.Current.ColorGrayText;
 				Image draw_image = this.Enabled ? this.Image : ToolStripRenderer.CreateDisabledImage (this.Image);
 
 				this.Owner.Renderer.DrawLabelBackground (new System.Windows.Forms.ToolStripItemRenderEventArgs (e.Graphics, this));

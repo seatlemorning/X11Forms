@@ -754,7 +754,7 @@ namespace System.Windows.Forms
 		{
 			SolidBrush brush = ThemeEngine.Current.ResPool.GetSolidBrush( color );
 			
-			e.Graphics.FillRectangle( ThemeEngine.Current.ResPool.GetSolidBrush( SystemColors.Control ), 0, 0, 156, 40 );
+			e.Graphics.FillRectangle( ThemeEngine.Current.ResPool.GetSolidBrush( ThemeEngine.Current.ColorControl ), 0, 0, 156, 40 );
 			
 			SizeF fontSizeF = e.Graphics.MeasureString( example_panel_text, font );
 			

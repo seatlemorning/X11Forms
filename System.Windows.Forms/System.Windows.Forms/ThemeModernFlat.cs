@@ -12,13 +12,13 @@ namespace System.Windows.Forms
         // ===== COLOR PALETTE =====
         // Accent - Emerald (Green)
         private static readonly Color PrimaryColor =
-            Color.FromArgb(15, 0, 210);
-
-        private static readonly Color PrimaryHover =
             Color.FromArgb(15, 100, 210);
 
+        private static readonly Color PrimaryHover =
+            Color.FromArgb(95, 120, 210);
+
         private static readonly Color PrimaryPressed =
-            Color.FromArgb(70, 100, 210);
+            Color.FromArgb(75, 100, 210);
 
         // Background
         private static readonly Color BackgroundColor =
@@ -361,32 +361,54 @@ namespace System.Windows.Forms
             bool isPrimary = IsDialogPrimary(button);
             bool isCancel = IsDialogCancel(button);
 
+// Определяем цвета
             if (isDisabled)
             {
                 backColor = Color.FromArgb(240, 240, 240);
-                borderColor = BorderColor;
+                borderColor = Color.FromArgb(200, 200, 200);
                 textColor = TextDisabled;
             }
             else if (isPressed)
             {
                 if (isPrimary)
+                {
                     backColor = PrimaryPressed;
+                    borderColor = PrimaryPressed;
+                    textColor = Color.White;
+                }
+                else if (isCancel)
+                {
+                    backColor = Color.OrangeRed;
+                    borderColor = Color.Black;
+                    textColor = Color.White;
+                }
                 else
-                    backColor = ControlPressed;
-
-                borderColor = PrimaryPressed;
-                textColor = isPrimary ? Color.White : TextColor;
+                {
+                    backColor = isFlat ? Color.FromArgb(230, 230, 230) : ControlPressed;
+                    borderColor = isFlat ? Color.FromArgb(160, 160, 160) : BorderColor;
+                    textColor = TextColor;
+                }
             }
             else if (isHot)
             {
                 if (isPrimary)
+                {
                     backColor = PrimaryHover;
+                    borderColor = PrimaryHover;
+                    textColor = Color.White;
+                }
+                else if (isCancel)
+                {
+                    backColor = Color.OrangeRed;
+                    borderColor = Color.Black;
+                    textColor = Color.White;
+                }
                 else
-                    backColor = ControlHover;
-
-                borderColor = isPrimary ? PrimaryHover : BorderHover;
-
-                textColor = isPrimary ? Color.White : TextColor;
+                {
+                    backColor = isFlat ? Color.FromArgb(240, 240, 240) : ControlHover;
+                    borderColor = isFlat ? Color.FromArgb(150, 150, 150) : BorderHover;
+                    textColor = TextColor;
+                }
             }
             else
             {
@@ -396,18 +418,23 @@ namespace System.Windows.Forms
                     borderColor = PrimaryColor;
                     textColor = Color.White;
                 }
+                else if (isCancel)
+                {
+                    backColor = Color.Red;
+                    borderColor = Color.Black;
+                    textColor = Color.White;
+                }
                 else
                 {
-                    backColor = isFlat ? Color.Transparent : ControlBackground;
-                    borderColor = isFlat ? Color.Transparent : BorderColor;
+                    backColor = isFlat ? Color.White : ControlBackground;
+                    borderColor = isFlat ? Color.FromArgb(200, 200, 200) : (isFlat ? Color.Transparent : BorderColor);
                     textColor = TextColor;
                 }
             }
-
-            int radius = isFlat ? 8 : 10;
+            
+            int radius = isFlat ? 6 : 10;
             var drawRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
-
-            // Shadow only for non-flat buttons
+            
             if (!isFlat && !isDisabled && !isPressed)
             {
                 int shadowAlpha = isHot ? 20 : 12;
@@ -418,19 +445,19 @@ namespace System.Windows.Forms
                         g.FillPath(shadowBrush, path);
                 }
             }
-
-            // Background
+            
             using (var path = GetRoundedRectangle(drawRect, radius))
             {
                 using (var brush = new SolidBrush(backColor))
                     g.FillPath(brush, path);
-
-                // Border
-                int borderWidth = isPrimary ? 0 : (isHot || isPressed ? 1 : 1);
-                using (var pen = new Pen(borderColor, borderWidth))
-                    g.DrawPath(pen, path);
+                
+                if (!isPrimary || isFlat)
+                {
+                    using (var pen = new Pen(borderColor, 1))
+                        g.DrawPath(pen, path);
+                }
             }
-
+            
             int offsetX = isPressed ? 1 : 0;
             int offsetY = isPressed ? 1 : 0;
 
@@ -438,15 +465,8 @@ namespace System.Windows.Forms
                 textBounds.Offset(offsetX, offsetY);
             if (imageBounds != Rectangle.Empty)
                 imageBounds.Offset(offsetX, offsetY);
-
-            // Image
-            if (button.Image != null && imageBounds.Width > 0 && imageBounds.Height > 0)
-            {
-                float opacity = isDisabled ? 0.4f : 1.0f;
-                DrawImageWithOpacity(g, button.Image, imageBounds, opacity);
-            }
-
-            // Text
+            
+            
             if (!string.IsNullOrEmpty(button.Text) && textBounds.Width > 0 && textBounds.Height > 0)
             {
                 using (var brush = new SolidBrush(textColor))
@@ -454,8 +474,7 @@ namespace System.Windows.Forms
                     g.DrawString(button.Text, button.Font, brush, textBounds, string_format);
                 }
             }
-
-            // Focus
+            
             if (button.Focused && button.Enabled && button.ShowFocusCues && !isFlat)
             {
                 using (var pen = new Pen(Color.FromArgb(80, PrimaryColor), 1.5f) { DashStyle = DashStyle.Dot })
@@ -489,20 +508,6 @@ namespace System.Windows.Forms
             return path;
         }
 
-        private void DrawImageWithOpacity(Graphics g, Image image, Rectangle rect, float opacity)
-        {
-            if (opacity >= 1.0f)
-            {
-                g.DrawImage(image, rect);
-                return;
-            }
-
-            var colorMatrix = new ColorMatrix { Matrix33 = opacity };
-            var attributes = new ImageAttributes();
-            attributes.SetColorMatrix(colorMatrix);
-            g.DrawImage(image, rect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
-        }
-
         private bool IsDialogPrimary(ButtonBase button)
         {
             if (button is Button b)
@@ -517,10 +522,11 @@ namespace System.Windows.Forms
 
                 string text = b.Text?.ToLowerInvariant() ?? "";
                 return text == "ok" ||
-                       text == "apply" ||
                        text == "save" ||
                        text == "сохранить" ||
                        text == "применить" ||
+                       text == "apply" ||
+                       text == "сохранить / закрыть" ||
                        text == "да" ||
                        text == "yes";
             }

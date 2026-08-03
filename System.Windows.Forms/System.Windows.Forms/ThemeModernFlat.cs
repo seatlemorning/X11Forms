@@ -446,10 +446,28 @@ namespace System.Windows.Forms
             int offsetX = isPressed ? 1 : 0;
             int offsetY = isPressed ? 1 : 0;
 
-            if (textBounds != Rectangle.Empty)
-                textBounds.Offset(offsetX, offsetY);
-            if (imageBounds != Rectangle.Empty)
-                imageBounds.Offset(offsetX, offsetY);
+            if (button.Image != null && imageBounds.Width > 0 && imageBounds.Height > 0)
+            {
+                float opacity = isDisabled ? 0.4f : 1.0f;
+
+                if (string.IsNullOrEmpty(button.Text))
+                {
+                    int imgX = (rect.Width - imageBounds.Width) / 2;
+                    int imgY = (rect.Height - imageBounds.Height) / 2;
+                    var centeredBounds = new Rectangle(imgX, imgY, imageBounds.Width, imageBounds.Height);
+
+                    centeredBounds.Offset(offsetX, offsetY);
+
+                    DrawImageWithOpacity(g, button.Image, centeredBounds, opacity);
+                }
+                else
+                {
+                    if (imageBounds != Rectangle.Empty)
+                        imageBounds.Offset(offsetX, offsetY);
+
+                    DrawImageWithOpacity(g, button.Image, imageBounds, opacity);
+                }
+            }
 
             if (!string.IsNullOrEmpty(button.Text) && textBounds.Width > 0 && textBounds.Height > 0)
             {
@@ -490,6 +508,31 @@ namespace System.Windows.Forms
             path.AddArc(rect.X, rect.Bottom - r * 2, r * 2, r * 2, 90, 90);
             path.CloseFigure();
             return path;
+        }
+
+        private void DrawImageWithOpacity(Graphics g, Image image, Rectangle rect, float opacity)
+        {
+            if (image == null)
+                return;
+
+            if (opacity >= 1.0f)
+            {
+                g.DrawImage(image, rect);
+                return;
+            }
+
+            try
+            {
+                var colorMatrix = new ColorMatrix { Matrix33 = opacity };
+                var attributes = new ImageAttributes();
+                attributes.SetColorMatrix(colorMatrix);
+                g.DrawImage(image, rect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
+                attributes.Dispose();
+            }
+            catch
+            {
+                g.DrawImage(image, rect);
+            }
         }
 
         private bool IsOkButton(ButtonBase button)

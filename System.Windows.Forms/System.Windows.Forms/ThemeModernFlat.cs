@@ -1,4 +1,4 @@
-﻿// ThemeModernFlat.cs - Simplified modern flat theme
+﻿// ThemeModernFlat.cs - Modern flat theme with blink support
 
 using System;
 using System.Drawing;
@@ -10,7 +10,7 @@ namespace System.Windows.Forms
     internal class ThemeModernFlat : ThemeWin32Classic
     {
         // ===== COLOR PALETTE =====
-        // Accent - Emerald (Green)
+        // Accent - Blue
         private static readonly Color PrimaryColor =
             Color.FromArgb(15, 100, 210);
 
@@ -54,7 +54,7 @@ namespace System.Windows.Forms
         private static readonly Color TextDisabled =
             Color.FromArgb(175, 178, 180);
 
-        // Selection (Highlight) - Green
+        // Selection
         private static readonly Color HighlightColor =
             Color.FromArgb(15, 100, 210);
 
@@ -297,7 +297,7 @@ namespace System.Windows.Forms
             base.ColorWindowText = TextColor;
             base.ColorWindowFrame = BorderColor;
 
-            // Highlight - GREEN selection color
+            // Highlight selection color
             base.ColorHighlight = HighlightColor;
             base.ColorHighlightText = HighlightTextColor;
 
@@ -360,6 +360,9 @@ namespace System.Windows.Forms
             Color borderColor;
             Color textColor;
             
+            // Check if button has custom ForeColor (for blink effect)
+            bool hasCustomForeColor = button.ForeColor != SystemColors.ControlText;
+            
             if (isDisabled)
             {
                 backColor = Color.FromArgb(240, 241, 243);
@@ -378,7 +381,7 @@ namespace System.Windows.Forms
                 {
                     backColor = isFlat ? Color.FromArgb(235, 236, 238) : ControlPressed;
                     borderColor = isFlat ? Color.FromArgb(160, 162, 166) : BorderColor;
-                    textColor = TextColor;
+                    textColor = hasCustomForeColor ? button.ForeColor : TextColor;
                 }
             }
             else if (isHot)
@@ -393,7 +396,7 @@ namespace System.Windows.Forms
                 {
                     backColor = isFlat ? Color.FromArgb(242, 243, 245) : ControlHover;
                     borderColor = isFlat ? Color.FromArgb(160, 162, 166) : BorderHover;
-                    textColor = TextColor;
+                    textColor = hasCustomForeColor ? button.ForeColor : TextColor;
                 }
             }
             else
@@ -408,13 +411,14 @@ namespace System.Windows.Forms
                 {
                     backColor = isFlat ? Color.White : ControlBackground;
                     borderColor = isFlat ? Color.FromArgb(200, 202, 205) : BorderColor;
-                    textColor = TextColor;
+                    textColor = hasCustomForeColor ? button.ForeColor : TextColor;
                 }
             }
 
             int radius = isFlat ? 6 : 10;
             var drawRect = new Rectangle(rect.X + 1, rect.Y + 1, rect.Width - 2, rect.Height - 2);
             
+            // Shadow for non-flat buttons
             if (!isFlat && !isDisabled && !isPressed && !isOkButton)
             {
                 int shadowAlpha = isHot ? 15 : 10;
@@ -426,6 +430,7 @@ namespace System.Windows.Forms
                 }
             }
 
+            // Draw background and border
             using (var path = GetRoundedRectangle(drawRect, radius))
             {
                 using (var brush = new SolidBrush(backColor))
@@ -446,6 +451,7 @@ namespace System.Windows.Forms
             int offsetX = isPressed ? 1 : 0;
             int offsetY = isPressed ? 1 : 0;
 
+            // Draw image
             if (button.Image != null && imageBounds.Width > 0 && imageBounds.Height > 0)
             {
                 float opacity = isDisabled ? 0.4f : 1.0f;
@@ -469,6 +475,7 @@ namespace System.Windows.Forms
                 }
             }
 
+            // Draw text
             if (!string.IsNullOrEmpty(button.Text) && textBounds.Width > 0 && textBounds.Height > 0)
             {
                 using (var brush = new SolidBrush(textColor))
@@ -477,6 +484,7 @@ namespace System.Windows.Forms
                 }
             }
 
+            // Focus indicator
             if (button.Focused && button.Enabled && button.ShowFocusCues && !isFlat)
             {
                 using (var pen = new Pen(Color.FromArgb(80, PrimaryColor), 1.5f) { DashStyle = DashStyle.Dot })

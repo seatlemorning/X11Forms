@@ -437,6 +437,7 @@ namespace SimpleTest
                 Padding = new Padding(10)
             };
 
+            // ===== STANDARD BUTTONS =====
             leftPanel.Controls.Add(CreateHeader("Standard Buttons"));
             leftPanel.Controls.Add(CreateSpacer());
 
@@ -450,6 +451,7 @@ namespace SimpleTest
             btn2.Click += (s, e) => UpdateStatus("Default button clicked");
             leftPanel.Controls.Add(btn2);
 
+            // ===== DIALOG BUTTONS =====
             leftPanel.Controls.Add(CreateSpacer());
             leftPanel.Controls.Add(CreateHeader("Dialog Buttons"));
 
@@ -464,16 +466,26 @@ namespace SimpleTest
 
             var okButton = new Button
             {
-                Text = "OK", Size = new Size(90, 34), DialogResult = DialogResult.OK, Font = new Font("Segoe UI", 10F)
+                Text = "OK",
+                Size = new Size(90, 34),
+                DialogResult = DialogResult.OK,
+                Font = new Font("Segoe UI", 10F)
             };
             okButton.Click += (s, e) => { UpdateStatus("OK clicked"); };
 
-            var applyButton = new Button { Text = "Apply", Size = new Size(90, 34), Font = new Font("Segoe UI", 10F) };
+            var applyButton = new Button
+            {
+                Text = "Apply",
+                Size = new Size(90, 34),
+                Font = new Font("Segoe UI", 10F)
+            };
             applyButton.Click += (s, e) => { UpdateStatus("Apply clicked"); };
 
             var cancelButton = new Button
             {
-                Text = "Cancel", Size = new Size(90, 34), DialogResult = DialogResult.Cancel,
+                Text = "Cancel",
+                Size = new Size(90, 34),
+                DialogResult = DialogResult.Cancel,
                 Font = new Font("Segoe UI", 10F)
             };
             cancelButton.Click += (s, e) => { UpdateStatus("Cancel clicked"); };
@@ -483,12 +495,15 @@ namespace SimpleTest
             dialogPanel.Controls.Add(cancelButton);
             leftPanel.Controls.Add(dialogPanel);
 
+            // ===== FLAT BUTTONS =====
             leftPanel.Controls.Add(CreateSpacer());
             leftPanel.Controls.Add(CreateHeader("Flat Buttons"));
 
             var btn3 = new Button
             {
-                Text = "Flat Button", Size = new Size(160, 38), FlatStyle = FlatStyle.Flat,
+                Text = "Flat Button",
+                Size = new Size(160, 38),
+                FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 10F)
             };
             btn3.Click += (s, e) => UpdateStatus("Flat button clicked");
@@ -496,18 +511,125 @@ namespace SimpleTest
 
             var btn4 = new Button
             {
-                Text = "Popup Button", Size = new Size(160, 38), FlatStyle = FlatStyle.Popup,
+                Text = "Popup Button",
+                Size = new Size(160, 38),
+                FlatStyle = FlatStyle.Popup,
                 Font = new Font("Segoe UI", 10F)
             };
             btn4.Click += (s, e) => UpdateStatus("Popup button clicked");
             leftPanel.Controls.Add(btn4);
 
-            // CheckBoxes & RadioButtons
+            // ===== BUTTONS WITH IMAGES =====
+            leftPanel.Controls.Add(CreateSpacer());
+            leftPanel.Controls.Add(CreateHeader("Buttons with Images"));
+
+            var btn5 = new Button
+            {
+                Text = "Open",
+                Size = new Size(160, 38),
+                Image = CreateSampleIcon(),
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleRight,
+                Font = new Font("Segoe UI", 10F)
+            };
+            btn5.Click += (s, e) => UpdateStatus("Open button clicked");
+            leftPanel.Controls.Add(btn5);
+
+            var btnImageOnly = new Button
+            {
+                Size = new Size(50, 50),
+                Image = CreateSampleIcon(),
+                ImageAlign = ContentAlignment.MiddleCenter,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 10F),
+                Margin = new Padding(5, 5, 5, 5)
+            };
+            btnImageOnly.Click += (s, e) => UpdateStatus("Image only button clicked");
+            leftPanel.Controls.Add(btnImageOnly);
+
+            // ===== BLINKING BUTTONS =====
+            leftPanel.Controls.Add(CreateSpacer());
+            leftPanel.Controls.Add(CreateHeader("Blinking Buttons"));
+
+            var blinkTimer = new Timer { Interval = 500, Enabled = true };
+            bool blinkState = false;
+
+// Кнопка 1 - мигает красным/черным
+            var blinkRedBtn = new Button
+            {
+                Text = "Blink Red",
+                Size = new Size(160, 38),
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = Color.Black,
+                Tag = "blink"
+            };
+            blinkRedBtn.Click += (s, e) => UpdateStatus("Blink Red clicked");
+            leftPanel.Controls.Add(blinkRedBtn);
+
+// Кнопка 2 - мигает синим/черным
+            var blinkBlueBtn = new Button
+            {
+                Text = "Blink Blue",
+                Size = new Size(160, 38),
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = Color.Black,
+                Tag = "blink"
+            };
+            blinkBlueBtn.Click += (s, e) => UpdateStatus("Blink Blue clicked");
+            leftPanel.Controls.Add(blinkBlueBtn);
+
+// Кнопка 3 - мигает зеленым/черным
+            var blinkGreenBtn = new Button
+            {
+                Text = "Blink Green",
+                Size = new Size(160, 38),
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = Color.Black,
+                Tag = "blink"
+            };
+            blinkGreenBtn.Click += (s, e) => UpdateStatus("Blink Green clicked");
+            leftPanel.Controls.Add(blinkGreenBtn);
+
+// Кнопка с иконкой - мигает красным/оранжевым
+            var blinkIconBtn = new Button
+            {
+                Text = "   Alert",
+                Size = new Size(160, 38),
+                Font = new Font("Segoe UI", 10F),
+                ForeColor = Color.Orange,
+                Tag = "blink",
+                Image = CreateWarningIcon(),
+                ImageAlign = ContentAlignment.MiddleLeft,
+                TextAlign = ContentAlignment.MiddleRight
+            };
+            blinkIconBtn.Click += (s, e) => UpdateStatus("Blink Icon clicked");
+            leftPanel.Controls.Add(blinkIconBtn);
+
+// Сохраняем оригинальные цвета
+            var origRedColor = blinkRedBtn.ForeColor;
+            var origBlueColor = blinkBlueBtn.ForeColor;
+            var origGreenColor = blinkGreenBtn.ForeColor;
+            var origIconColor = blinkIconBtn.ForeColor;
+
+            blinkTimer.Tick += (s, e) =>
+            {
+                blinkState = !blinkState;
+                // Каждая кнопка мигает своим цветом
+                blinkRedBtn.ForeColor = blinkState ? Color.Red : origRedColor;
+                blinkBlueBtn.ForeColor = blinkState ? Color.FromArgb(15, 100, 210) : origBlueColor;
+                blinkGreenBtn.ForeColor = blinkState ? Color.Green : origGreenColor;
+                blinkIconBtn.ForeColor = blinkState ? Color.Red : origIconColor;
+            };
+
+            // ===== CHECKBOXES =====
             rightPanel.Controls.Add(CreateHeader("CheckBox"));
 
             var cb1 = new CheckBox
             {
-                Text = "Standard CheckBox", Font = new Font("Segoe UI", 10F), Checked = true, AutoSize = true,
+                Text = "Standard CheckBox",
+                Font = new Font("Segoe UI", 10F),
+                Checked = true,
+                AutoSize = true,
                 Margin = new Padding(5, 5, 5, 10)
             };
             cb1.CheckedChanged += (s, e) => UpdateStatus($"CheckBox: {(cb1.Checked ? "Checked" : "Unchecked")}");
@@ -515,25 +637,37 @@ namespace SimpleTest
 
             var cb2 = new CheckBox
             {
-                Text = "Three State CheckBox", Font = new Font("Segoe UI", 10F), ThreeState = true,
-                CheckState = CheckState.Indeterminate, AutoSize = true, Margin = new Padding(5, 5, 5, 10)
+                Text = "Three State CheckBox",
+                Font = new Font("Segoe UI", 10F),
+                ThreeState = true,
+                CheckState = CheckState.Indeterminate,
+                AutoSize = true,
+                Margin = new Padding(5, 5, 5, 10)
             };
             cb2.CheckStateChanged += (s, e) => UpdateStatus($"Three State: {cb2.CheckState}");
             rightPanel.Controls.Add(cb2);
 
             var cb3 = new CheckBox
             {
-                Text = "Disabled CheckBox", Font = new Font("Segoe UI", 10F), Enabled = false, Checked = true,
-                AutoSize = true, Margin = new Padding(5, 5, 5, 10)
+                Text = "Disabled CheckBox",
+                Font = new Font("Segoe UI", 10F),
+                Enabled = false,
+                Checked = true,
+                AutoSize = true,
+                Margin = new Padding(5, 5, 5, 10)
             };
             rightPanel.Controls.Add(cb3);
 
+            // ===== RADIOBUTTONS =====
             rightPanel.Controls.Add(CreateSpacer());
             rightPanel.Controls.Add(CreateHeader("RadioButton"));
 
             var rb1 = new RadioButton
             {
-                Text = "Radio 1 - Active", Font = new Font("Segoe UI", 10F), Checked = true, AutoSize = true,
+                Text = "Radio 1 - Active",
+                Font = new Font("Segoe UI", 10F),
+                Checked = true,
+                AutoSize = true,
                 Margin = new Padding(5, 5, 5, 10)
             };
             rb1.CheckedChanged += (s, e) => UpdateStatus($"Selected: {rb1.Text}");
@@ -541,7 +675,9 @@ namespace SimpleTest
 
             var rb2 = new RadioButton
             {
-                Text = "Radio 2 - Inactive", Font = new Font("Segoe UI", 10F), AutoSize = true,
+                Text = "Radio 2 - Inactive",
+                Font = new Font("Segoe UI", 10F),
+                AutoSize = true,
                 Margin = new Padding(5, 5, 5, 10)
             };
             rb2.CheckedChanged += (s, e) => UpdateStatus($"Selected: {rb2.Text}");
@@ -549,11 +685,15 @@ namespace SimpleTest
 
             var rb3 = new RadioButton
             {
-                Text = "Disabled Radio", Font = new Font("Segoe UI", 10F), Enabled = false, AutoSize = true,
+                Text = "Disabled Radio",
+                Font = new Font("Segoe UI", 10F),
+                Enabled = false,
+                AutoSize = true,
                 Margin = new Padding(5, 5, 5, 10)
             };
             rightPanel.Controls.Add(rb3);
 
+            // ===== ADD PANELS TO TAB =====
             panel.Controls.Add(leftPanel, 0, 0);
             panel.Controls.Add(rightPanel, 1, 0);
             tabButtons.Controls.Add(panel);
@@ -1503,6 +1643,58 @@ namespace SimpleTest
             panel.Controls.Add(btnInputDialog);
 
             tabDialogs.Controls.Add(panel);
+        }
+
+        private Image CreateWarningIcon()
+        {
+            var bmp = new Bitmap(24, 24);
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                // Треугольник предупреждения
+                using (var pen = new Pen(Color.Red, 2))
+                {
+                    Point[] points = new Point[]
+                    {
+                        new Point(12, 2),
+                        new Point(22, 20),
+                        new Point(2, 20)
+                    };
+                    g.DrawPolygon(pen, points);
+
+                    // Восклицательный знак
+                    g.DrawLine(pen, 12, 8, 12, 14);
+                    g.DrawRectangle(pen, 11, 16, 2, 2);
+                }
+            }
+
+            return bmp;
+        }
+
+        private Image CreateSampleIcon()
+        {
+            var bmp = new Bitmap(24, 24);
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                using (var pen = new Pen(Color.FromArgb(15, 100, 210), 2))
+                {
+                    // Стрелка вниз (как иконка открытия)
+                    g.DrawLine(pen, 12, 4, 12, 18);
+                    g.DrawLine(pen, 6, 12, 12, 18);
+                    g.DrawLine(pen, 18, 12, 12, 18);
+
+                    // Скобка сверху
+                    g.DrawLine(pen, 4, 4, 8, 4);
+                    g.DrawLine(pen, 16, 4, 20, 4);
+                }
+            }
+
+            return bmp;
         }
 
         private void ShowInputDialog()

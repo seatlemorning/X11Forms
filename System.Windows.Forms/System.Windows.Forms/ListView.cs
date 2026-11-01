@@ -2854,8 +2854,15 @@ namespace System.Windows.Forms
 
 					if (owner.MultiSelect) {
 						bool reselect = (!owner.LabelEdit || changed);
-						if (me.Button == MouseButtons.Left || (XplatUI.State.ModifierKeys == Keys.None && changed))
-							owner.UpdateMultiSelection (clicked_item.DisplayIndex, reselect);
+						if (me.Button == MouseButtons.Left || (XplatUI.State.ModifierKeys == Keys.None && changed)) {
+							int displayIndex = clicked_item.DisplayIndex;
+							bool doReselect = reselect;
+							// Откладываем выбор, чтобы MouseDown завершился и Capture снялся,
+							// прежде чем синхронный RPC в SelectedIndexChanged заблокирует UI-поток.
+							owner.BeginInvoke (new MethodInvoker (() => {
+								owner.UpdateMultiSelection (displayIndex, doReselect);
+							}));
+						}
 					} else {
 						clicked_item.Selected = true;
 					}
@@ -2867,11 +2874,8 @@ namespace System.Windows.Forms
 						return;
 
 					if (owner.VirtualMode && changed) {
-						// Broken event - It's not fired from Item.Selected also
-						ListViewVirtualItemsSelectionRangeChangedEventArgs args = 
-							new ListViewVirtualItemsSelectionRangeChangedEventArgs (0, owner.items.Count - 1, false);
-
-						owner.OnVirtualItemsSelectionRangeChanged (args);
+						var args = new ListViewVirtualItemsSelectionRangeChangedEventArgs (0, owner.items.Count - 1, false);
+						owner.BeginInvoke (new MethodInvoker (() => owner.OnVirtualItemsSelectionRangeChanged (args)));
 					}
 					// Report clicks only if the item was clicked. On MS the
 					// clicks are only raised if you click an item
